@@ -21,3 +21,8 @@ if(houdini_tools_path not in sys.path):
 
 #houdini configuration
 #maybe separate this code in an other py file
+print("set environement variables.....")
+#hou.putenv("HOUDINI_GEOMETRY_PATH", hou.hipfile.path()+"cache")
+dirpath = os.path.dirname(hou.hipFile.path())
+hou.hscript("set -g HOUDINI_GEOMETRY_PATH = " +"\$HIP/cache")
+print("HOUDINI_GEOMETRY_PATH = "+ "$HIP/cache")
