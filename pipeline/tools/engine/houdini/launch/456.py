@@ -1,13 +1,12 @@
 import sys
 import os
 import hou
+#from pipeline import framework_config as framework
 #file executed by houdini when starting
 #just add the path to this file in the en var HOUDINI_SCRIPT_PATH
 
-#todo : create a new env var VFX_PIPELINE that pointing on the pipeline base folder
-pipeline_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline"
-
-print("load NSpipeline")
+print("load NSpipeline : "+os.getcwd())
+pipeline_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline" #framework.get_pipeline_path()
 
 if(pipeline_path not in sys.path):
     sys.path.append(pipeline_path)
@@ -19,10 +18,17 @@ if(houdini_tools_path not in sys.path):
     print("add path to houdini tools in sypath")
     sys.path.append(houdini_tools_path)
 
+from houdini import shelf_manager #.shelf_manager as shelves
+
 #houdini configuration
 #maybe separate this code in an other py file
 print("set environement variables.....")
 #hou.putenv("HOUDINI_GEOMETRY_PATH", hou.hipfile.path()+"cache")
 dirpath = os.path.dirname(hou.hipFile.path())
 hou.hscript("set -g HOUDINI_GEOMETRY_PATH = " +"\$HIP/cache")
+#use load_shelves() => hou.hscript("set -g HOUDINI_TOOLBAR_PATH = " +r'"C:/Users/Natspir/Documents/houdini18.0/toolbar/custom";&')
 print("HOUDINI_GEOMETRY_PATH = "+ "$HIP/cache")
+#print("HOUDINI_TOOLBAR_PATH = "+ hou.getenv("HOUDINI_TOOLBAR_PATH"))
+
+#set shelves :
+shelf_manager.load_shelves()
