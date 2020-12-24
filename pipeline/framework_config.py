@@ -3,10 +3,11 @@
 
 houdini_tools_path = r"pipeline\tools\engine"
 #todo : create a new env var VFX_PIPELINE that pointing on the pipeline base folder
-__pipeline_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline"
-
+__framework_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline"
 def get_houdini_path():
     return houdini_tools_path
 
-def get_pipeline_path():
-    return __pipeline_path
+def get_framework_path():
+    return __framework_path
+
+#def

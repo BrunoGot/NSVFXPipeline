@@ -4,7 +4,7 @@ from pipeline import framework_config as config
 
 
 def load_shelves():
-    custom_shelves_dir = config.get_pipeline_path()+os.sep+config.get_houdini_path() + "/houdini/shelves"
+    custom_shelves_dir = config.get_framework_path()+os.sep+config.get_houdini_path() + "/houdini/shelves"
 
     current_shelves = hou.shelves.shelfSets()
     custom_shelves_dir = custom_shelves_dir.replace('/', os.sep)

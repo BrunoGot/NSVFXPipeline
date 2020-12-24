@@ -8,7 +8,7 @@
   <tool name="NS_save_as_HDA" label="Save As HDA" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[]]></script>
   </tool>
-  
+
   <tool name="NS_save_as_tutorial" label="Save As Tutorial" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[import os
 pathfile = r'C:/Users/Natspir/NatspirProd/03_WORK_PIPE/05_Tuto' #to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
@@ -46,7 +46,7 @@ if(inputUser[0]==1): #if the user press ok button :
             hou.ui.displayMessage('Tutorial saved at '+tutoDir)
             ]]></script>
   </tool>
-  
+
   <tool name="NS_increment" label="Increment" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[import houdini.save_version as save_version
 reload(save_version)
@@ -55,7 +55,7 @@ save_version.run()
 #hou.hipFile.saveAndIncrementFileName()
 #bug possible when filename doesnt have number]]></script>
   </tool>
-  
+
   <tool name="NS_file_explorer" label="Explorer" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[import houdini.explore as explore_tool
 #reload(houdini.explore)
@@ -63,7 +63,7 @@ explore_tool.explore()
 
 ]]></script>
   </tool>
-  
+
   <tool name="NS_next_task" label="Next Task" icon="PLASMA_App">
     <script scriptType="python"><![CDATA[import houdini.next_step as next_step_tool
 reload(next_step_tool)
@@ -93,6 +93,8 @@ todo :
     <memberTool name="NS_next_task"/>
     <memberTool name="NS_pull_cache"/>
     <memberTool name="NS_save_as_asset"/>
+    <memberTool name="set_project"/>
+    <memberTool name="View_FlipBook"/>
   </toolshelf>
 
   <tool name="NS_pull_cache" label="Pull Cache" icon="PLASMA_App">
@@ -106,7 +108,7 @@ pull_cache_tool.run()]]></script>
 reload(asset)
 asset.run()
 
-#asset_tool]]></script>
+]]></script>
   </tool>
 
   <shelfSetEdit name="shelf_set_1" fileLocation="C:/PROGRA~1/SIDEEF~1/HOUDIN~1.460/houdini/toolbar/ShelfDefinitions.shelf">
