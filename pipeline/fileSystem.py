@@ -1,10 +1,21 @@
+import sys
 import os
+import lucidity
+
+import importlib
+path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline"
+if path not in sys.path :
+    sys.path.append(path)
 import pipeline_config as config
-reload(config)
+
+#reload(config) not handled on python 3
 
 #create and manage pipeline folder structure according to the pipeline configuration file
 
+conf = config.Config("default") #make a singleton or something but there it smell like ten spirit
 
+asset_base_path = conf.project_directory.pattern # r'C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D' #todo : set a getter or propriaty name home_project_path refering to the invariable root path
+print("asset_base_path = "+asset_base_path)
 
 def get_pipeline_datas_from_path(current_file_path):
     datas = {}
@@ -16,6 +27,12 @@ def get_pipeline_datas_from_path(current_file_path):
     pipeline_path = current_file_path.split(pipeline_base_folder)[1]
     pipeline_folders = pipeline_path.split("/")
     pipeline_folders.remove('')
+    #smel : temporary
+    if('3d' in pipeline_folders ):
+        pipeline_folders.remove('3d')
+    if('scenes' in pipeline_folders ):
+        pipeline_folders.remove('scenes')
+
     print("pipeline_folders = " + str(pipeline_folders))
 
     if(len(pipeline_folders)==pipeline_folder_depth):
@@ -27,7 +44,10 @@ def get_pipeline_datas_from_path(current_file_path):
     return datas
 
 def create_new_work_version(current_file_path):
+    #xreate a new work version and get datas from the path
     # attribute from pipeline_configuration.py
+    #conf = config.Config("default")
+    #conf.asset_file_path.format()
     work_folder_template = "work_v"
     file_name_template = config.file_name_template
     print("path = "+current_file_path)
@@ -99,3 +119,52 @@ def create_new_task(file_path, task_name, subtask_name):
         os.makedirs(task_path)
     task_path = os.path.join(task_path, new_file_name)
     return task_path
+
+def get_folder_path(datas):
+    """return the path according to the input data and the configuration file. this function may be temporary.
+    Datas are a dictionnary with AssetType, AssetName, Task, Subtask, Version"""
+    conf = config.Config("default")
+    path = conf.asset_file_folder_path.format(datas)
+    return path
+
+def get_datas_from_path(path):
+    """parsing assets datas from the pipeline path. return the parsed datas using lucidity. May be temporary function"""
+    conf = config.Config("default")
+    try:
+        path = path.replace("\\", "/")
+        if asset_base_path in path :
+            path = path.replace(asset_base_path+"/", "")
+        print("fs path = "+path)
+        datas = conf.asset_file_path.parse(path)
+    except lucidity.ParseError:
+        datas = None
+    return datas
+
+def increment(path_file):
+    #get the datas from the path
+    datas = get_datas_from_path(path_file)
+    print("datas = "+str(datas))
+    #if datas are valids :
+    if datas :
+        digit_version = datas["Version"]
+        folder_name = conf.version.format({"Version":digit_version})
+        exist = True
+        new_path = path_file
+        while exist == True:
+            #convert to in, increment it, then convert it back to string
+            digit_version = int(digit_version,)
+            digit_version+=1
+            digit_version = f"{digit_version:03}"
+            #update the datas with the new work iteration
+            datas["Version"] = digit_version
+            new_path = get_folder_path(datas)
+            new_path = os.path.join(new_path, conf.asset_file_name.format(datas))
+            new_path = asset_base_path+"/"+new_path #os.path.join(asset_base_path,new_path)
+            #if the path doesn't exist yet, it's ok let's break the loop, else go for a new iteration
+            if not os.path.exists(new_path):
+                os.makedirs(os.path.join(asset_base_path, get_folder_path(datas)))
+                exist = False
+        print("new_path = "+new_path)
+
+if __name__ == "__main__":
+    pass

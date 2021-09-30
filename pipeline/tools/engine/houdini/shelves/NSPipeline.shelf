@@ -5,11 +5,11 @@
  Note, that two definitions of the same element are not allowed in
  a single file. -->
 
-  <tool name="NS_save_as_HDA" label="Save As HDA" icon="PLASMA_App">
+  <tool name="NS_save_as_HDA" label="Save As HDA" icon="hicon:/SVGIcons.index?BUTTONS_materials_unassigned.svg">
     <script scriptType="python"><![CDATA[]]></script>
   </tool>
 
-  <tool name="NS_save_as_tutorial" label="Save As Tutorial" icon="PLASMA_App">
+  <tool name="NS_save_as_tutorial" label="Save As Tutorial" icon="hicon:/SVGIcons.index?BUTTONS_sync.svg">
     <script scriptType="python"><![CDATA[import os
 pathfile = r'C:/Users/Natspir/NatspirProd/03_WORK_PIPE/05_Tuto' #to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
 message = "save your tutorial"
@@ -47,7 +47,7 @@ if(inputUser[0]==1): #if the user press ok button :
             ]]></script>
   </tool>
 
-  <tool name="NS_increment" label="Increment" icon="PLASMA_App">
+  <tool name="NS_increment" label="Increment" icon="hicon:/SVGIcons.index?BUTTONS_multi_insertbefore.svg">
     <script scriptType="python"><![CDATA[import houdini.save_version as save_version
 reload(save_version)
 save_version.run()
@@ -56,7 +56,7 @@ save_version.run()
 #bug possible when filename doesnt have number]]></script>
   </tool>
 
-  <tool name="NS_file_explorer" label="Explorer" icon="PLASMA_App">
+  <tool name="NS_file_explorer" label="Explorer" icon="hicon:/SVGIcons.index?BUTTONS_folder.svg">
     <script scriptType="python"><![CDATA[import houdini.explore as explore_tool
 #reload(houdini.explore)
 explore_tool.explore()
@@ -64,7 +64,7 @@ explore_tool.explore()
 ]]></script>
   </tool>
 
-  <tool name="NS_next_task" label="Next Task" icon="PLASMA_App">
+  <tool name="NS_next_task" label="Next Task" icon="hicon:/SVGIcons.index?BUTTONS_move_to_right.svg">
     <script scriptType="python"><![CDATA[import houdini.next_step as next_step_tool
 reload(next_step_tool)
 
@@ -93,20 +93,28 @@ todo :
     <memberTool name="NS_next_task"/>
     <memberTool name="NS_pull_cache"/>
     <memberTool name="NS_save_as_asset"/>
-    <memberTool name="set_project"/>
-    <memberTool name="View_FlipBook"/>
+    <memberTool name="NS_set_project"/>
+    <memberTool name="generate_flipbook"/>
   </toolshelf>
-
-  <tool name="NS_pull_cache" label="Pull Cache" icon="PLASMA_App">
+    <!-- to implement : <memberTool name="View_FlipBook"/>    <memberTool name="save_as_draft"/>-->
+  <tool name="NS_pull_cache" label="Pull Cache" icon="hicon:/SVGIcons.index?BUTTONS_download.svg">
     <script scriptType="python"><![CDATA[import houdini.pull_cache as pull_cache_tool
 reload(pull_cache_tool )
 pull_cache_tool.run()]]></script>
   </tool>
 
-  <tool name="NS_save_as_asset" label="Save As Asset" icon="PLASMA_App">
+  <tool name="NS_save_as_asset" label="Save As Asset" icon="hicon:/SVGIcons.index?BUTTONS_match_scale.svg">
     <script scriptType="python"><![CDATA[import houdini.save_as_asset as asset
 reload(asset)
 asset.run()
+
+]]></script>
+  </tool>
+
+  <tool name="NS_set_project" label="Set Project" icon="hicon:/SVGIcons.index?BUTTONS_environment.svg">
+    <script scriptType="python"><![CDATA[import houdini.project_manager as project
+reload(project)
+project.set_project()
 
 ]]></script>
   </tool>

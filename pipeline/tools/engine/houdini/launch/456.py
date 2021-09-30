@@ -32,3 +32,12 @@ print("HOUDINI_GEOMETRY_PATH = "+ "$HIP/cache")
 
 #set shelves :
 shelf_manager.load_shelves()
+
+#import HDAs
+hda_folder = frameworkConfig.get_HDAs_folder()
+for hda in os.listdir(hda_folder):
+    print("HDA loaded = "+hda)
+    hda_path = hda_folder+os.sep+hda
+    hou.hda.installFile(hda_path)
+#for all elements in HDA folder
+#   instal HDAs

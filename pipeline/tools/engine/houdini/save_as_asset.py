@@ -1,8 +1,10 @@
 import os
 import hou
+import pipeline.fileSystem as fs
+reload(fs)
 
 def run():
-    assetPathFile = r'C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D'  # to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
+    assetPathFile = fs.asset_base_path   # to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
     pipelineSubPath = os.sep + '3d' + os.sep + 'scenes' + os.sep
     assetName = hou.hipFile.basename()
 
@@ -15,17 +17,19 @@ def run():
     assetType = ''
     assetTask = ''
     assetSubtask = ''
+    assetVersion = 'work_v001'
 
-    # determine the type of the asset by using its path
+    #fill the information using the path
     if assetPathFile in str(currentPath):
-        currentPath = currentPath[len(assetPathFile):]
-        splittedPath = currentPath.split('/')
-        assetType = splittedPath[1]
-        print('assetType =' + assetType)
-        assetTask = splittedPath[5]
-        assetSubtask = splittedPath[6]
-    else:
-        pipelineSubPath = ''
+        currentPath = currentPath[len(assetPathFile)+1:]
+        cur_path_test = os.path.dirname(currentPath)
+        cur_path_test = cur_path_test.replace('/', "\\")
+        datas = fs.get_datas_from_path(cur_path_test)
+        if datas!=None:
+            assetType = datas['AssetType']
+            assetTask = datas['Task']
+            assetSubtask = datas['Subtask']
+            print(datas)
 
     message = "test"
     inputUser = hou.ui.readMultiInput(message, ('Asset Name', 'Asset Type', 'Task', 'Subtask'), buttons=('Cancel', 'OK'),
@@ -41,14 +45,17 @@ def run():
             assetName = assetInfo[0]
             # if the other fields are empty don't put it in  the pipeline file
             if (assetInfo[1] != ''):
-                assetType = assetInfo[1] + os.sep
+                assetType = assetInfo[1]
             if (assetInfo[2] != ''):
-                assetTask = assetInfo[2] + os.sep
+                assetTask = assetInfo[2]
             if (assetInfo[3] != ''):
-                assetSubtask = assetInfo[3] + os.sep
+                assetSubtask = assetInfo[3]
 
-            pathfile = assetPathFile + os.sep + assetType
-            pathfile += assetName + os.sep + pipelineSubPath + assetTask + assetSubtask + 'work_v001' + os.sep
+            pipe_path = fs.get_path({"AssetType":assetType, "AssetName":assetName, "Task":assetTask, "Subtask":assetSubtask, "Version":assetVersion })
+            #soon depreciated
+            pathfile = assetPathFile + os.sep + pipe_path+os.sep
+            #pathfile += assetName + os.sep + pipelineSubPath + assetTask + assetSubtask + assetVersion + os.sep
+            print("pipe_path = "+pathfile)
 
             if (os.path.exists(pathfile) == False):
                 os.makedirs(pathfile)

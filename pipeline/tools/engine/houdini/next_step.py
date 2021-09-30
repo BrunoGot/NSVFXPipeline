@@ -24,6 +24,12 @@ def next(next_step_name, next_substep_name):
         cache_path = out_caches_path[i]
         node_name = cache.name().replace("_out", "_in")
         in_node = root_node.createNode("NS_In",node_name)
+        #smell :
+        #check the cache mu and replace it with $F
+        split = cache_path.split(".")
+        split[-3] = "$F"
+        cache_path = '.'.join(split)
+        #done
         in_node.parm("file").set(cache_path) #link here the published caches
         geo_parent = cache.parent()
         geo_parent.deleteItems(geo_parent.allItems()) #reset the node

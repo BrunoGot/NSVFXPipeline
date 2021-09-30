@@ -9,10 +9,14 @@ def get_all_displayed_nodes():
     print("update")
     for geo in geo_nodes:
         if geo.isDisplayFlagSet()==1:
-            for node in geo.children():
+            display_nodes.append(geo.displayNode())
+            print("out node = "+geo.displayNode().name())
+            """for node in geo.children():
+                print("node = "+node.name())
                 if(node.isDisplayFlagSet()==1):
                     print(node.name())
-                    display_nodes.append(node)
+                    display_nodes.append(node)"""
+
     return display_nodes
 
 def caching_nodes(nodes):
