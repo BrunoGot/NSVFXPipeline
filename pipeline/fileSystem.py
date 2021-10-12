@@ -7,6 +7,7 @@ path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline"
 if path not in sys.path :
     sys.path.append(path)
 import pipeline_config as config
+from pipeline.tools.GUI import modal_messages as msg
 
 #reload(config) not handled on python 3
 
@@ -124,7 +125,18 @@ def get_folder_path(datas):
     """return the path according to the input data and the configuration file. this function may be temporary.
     Datas are a dictionnary with AssetType, AssetName, Task, Subtask, Version"""
     conf = config.Config("default")
-    path = conf.asset_file_folder_path.format(datas)
+    #cleaning the datas before format the path to avoid keyword duplication like "work_work_001"#
+    raw_pattern = conf.version.pattern
+    for k in conf.version.keys():
+        raw_pattern = raw_pattern.replace("{"+k+"}","")
+    if raw_pattern in datas['Version']:
+        pass
+        datas['Version'] = datas['Version'].replace(raw_pattern, "")
+    ##
+    try:
+        path = conf.asset_file_folder_path.format(datas)
+    except lucidity.error.FormatError as err:
+        msg.error("The config name is invalid to save", str(err.args))
     return path
 
 def get_datas_from_path(path):
@@ -152,7 +164,13 @@ def increment(path_file):
         new_path = path_file
         while exist == True:
             #convert to in, increment it, then convert it back to string
-            digit_version = int(digit_version,)
+            print("digit_version = "+digit_version)
+            try:
+                digit_version = int(digit_version)
+            except ValueError as err:
+                msg.error("probleme with version name template", "cannot convert this name into int : "+digit_version)
+                print("err")
+                break
             digit_version+=1
             digit_version = f"{digit_version:03}"
             #update the datas with the new work iteration
@@ -160,11 +178,17 @@ def increment(path_file):
             new_path = get_folder_path(datas)
             new_path = os.path.join(new_path, conf.asset_file_name.format(datas))
             new_path = asset_base_path+"/"+new_path #os.path.join(asset_base_path,new_path)
+            #print("new_path = "+new_path)
             #if the path doesn't exist yet, it's ok let's break the loop, else go for a new iteration
             if not os.path.exists(new_path):
-                os.makedirs(os.path.join(asset_base_path, get_folder_path(datas)))
+                print("break the loop ")
+                folder_path = os.path.join(asset_base_path, get_folder_path(datas))
+                if not os.path.exists(folder_path) :
+                    os.makedirs(folder_path)
                 exist = False
         print("new_path = "+new_path)
-
+    else :
+        print("no datas")
+        msg.error("problems with datas",datas)
 if __name__ == "__main__":
     pass

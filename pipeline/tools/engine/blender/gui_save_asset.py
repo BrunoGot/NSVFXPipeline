@@ -83,6 +83,11 @@ class SaveAssetGUI:
 
 def test():
     print("test")
+    import subprocess
+    path_file = r"C:\\Users\\Natspir\\NatspirProd\\03_WORK_PIPE\\01_ASSET_3D\\Concept\\MandalaPower\\Psyched\\Base\\006\\MandalaPower_006.kra"
+    p = subprocess.Popen([r'C:\\Users\\Natspir\\Documents\\Code\\Python\\AssetManager\\venv\\Scripts\\Python.exe',
+                          r'C:\\Users\\Natspir\\Documents\\Code\\Python\\NSVFXPipeline\\pipeline\\tools\\GUI\\save_asset_gui.py',
+                          '--path=' + path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)
 
 if __name__ == "__main__":
     testGui = SaveAssetGUI("test", test)

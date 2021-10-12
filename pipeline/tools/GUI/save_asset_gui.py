@@ -2,6 +2,7 @@ import os
 import sys
 
 import PyQt6.QtGui
+import lucidity.error
 from Qt import QtWidgets, QtGui,QtCore
 import argparse
 from multiprocessing import Process, Pipe
@@ -22,14 +23,29 @@ class SaveAssetGUI(QtWidgets.QWidget):
         #parsing arguments
         parser = argparse.ArgumentParser(description = "Save asset")
         parser.add_argument('--path', dest='path', type=str, help='path of the current asset to save')
+        parser.add_argument('--ext', dest='ext', type=str, help='extension of the asset file')
         args = parser.parse_args()
         print("args = "+str(args.path))
         self.asset_path = args.path
+        self.asset_ext = args.ext
+        print("ext = " + self.asset_ext)
 
-        self.asset_type = "Concept"
-        self.asset_task = ""
-        self.asset_subtask = ""
-        self.asset_version = "001"
+        path = self.asset_path.replace(fs.asset_base_path + "/", "")
+        print("path = " + path)
+        datas = fs.get_datas_from_path(path)
+        print("in datas = " + str(datas))
+
+        if datas:
+            self.asset_name = datas['AssetName']
+            self.asset_type = datas['AssetType']
+            self.asset_task = datas['Task']
+            self.asset_subtask = datas['Subtask']
+            self.asset_version = datas['Version']
+        else :
+            self.asset_type = "Concept"
+            self.asset_task = ""
+            self.asset_subtask = ""
+            self.asset_version = "001"
 
         # creation de l'application
         self.target_path = fs.asset_base_path
@@ -63,22 +79,6 @@ class SaveAssetGUI(QtWidgets.QWidget):
         completer = self.update_autocompletion(self.datas_Type)
         id_line_edit.setCompleter(completer)
     def draw_gui(self):
-        path = self.asset_path.replace(fs.asset_base_path+"/","")
-        path = os.path.dirname(path)
-        #os.path
-        #os.p
-        #path = path.replace("/",'\\') #"Concept\MandalaPower\Base\Base\001"
-        #path = path.replace('\\', r"\" )
-        print("path = "+path)
-        datas = fs.get_datas_from_path(path)
-        print("datas = "+str(datas))
-
-        if datas:
-            self.asset_name = datas['AssetName']
-            self.asset_type = datas['AssetType']
-            self.asset_task = datas['Task']
-            self.asset_subtask = datas['Subtask']
-            self.asset_version = datas['Version']
 
         self.main_layout = QtWidgets.QHBoxLayout()
         #self.setGeometry(1000,50,100,200)
@@ -150,6 +150,10 @@ class SaveAssetGUI(QtWidgets.QWidget):
         tree_model = QtGui.QStandardItemModel()
         tree_model = self.fill_tree_view(tree_model)
         tree_view.setModel(tree_model)
+        if self.asset_type:
+            pass
+            #item = tree_view.findItems(self.asset_type)
+            #print("item found : "+str(item))
         #tree_view.expandAll()
         self.left_panel.addWidget(tree_view)
         self.main_layout.addLayout(self.left_panel)
@@ -176,17 +180,17 @@ class SaveAssetGUI(QtWidgets.QWidget):
     def update_autocompletion(self,model ):
         print("self.target_path = "+self.target_path)
         #reinit the model
-
-        #get all element in path
-        list_elem = os.listdir(self.target_path)
-        list_dir = []
-        #filter only folder in this path
-        for e in list_elem:
-            if os.path.isdir(os.path.join(self.target_path,e)):
-                list_dir.append(e)
-        #convert it as items and add it to the model completer
-        for d in list_dir:
-            model.appendRow(QtGui.QStandardItem(d))
+        if os.path.isdir(self.target_path):
+            #get all element in path
+            list_elem = os.listdir(self.target_path)
+            list_dir = []
+            #filter only folder in this path
+            for e in list_elem:
+                if os.path.isdir(os.path.join(self.target_path,e)):
+                    list_dir.append(e)
+            #convert it as items and add it to the model completer
+            for d in list_dir:
+                model.appendRow(QtGui.QStandardItem(d))
 
         completer = QtWidgets.QCompleter(model, self)
 
@@ -218,8 +222,9 @@ class SaveAssetGUI(QtWidgets.QWidget):
         return error, flag
 
     def get_path_id(self, name, type, task, subtask, version):
-        asset_datas = {"AssetType": type, "AssetName": name, "Task": task, "Subtask": subtask, "Version": version}
+        asset_datas = {"AssetType": type, "AssetName": name, "Task": task, "Subtask": subtask, "Version": version, "ext":self.asset_ext}
         path_id = engine.make_asset_path(asset_datas)
+        #asset_file_path = fs.conf.asset_file_name.format(asset_datas)
         path_id = os.path.join(path_id,fs.conf.asset_file_name.format(asset_datas))
         return path_id
 
@@ -228,6 +233,7 @@ class SaveAssetGUI(QtWidgets.QWidget):
         os.startfile(os.path.dirname(self.asset_path))
 
     def save(self):
+        print("save")
         #check input value
         name = self.name_input.text()
         type = self.type_input.text()

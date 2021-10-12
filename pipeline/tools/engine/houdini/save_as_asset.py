@@ -1,10 +1,13 @@
 import os
 import hou
-import pipeline.fileSystem as fs
-reload(fs)
+import subprocess
 
 def run():
-    assetPathFile = fs.asset_base_path   # to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
+    path_file = ""#hou.hipFile.path()
+    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
+                          r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
+                          '--path=' + path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)
+    """assetPathFile = fs.asset_base_path   # to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
     pipelineSubPath = os.sep + '3d' + os.sep + 'scenes' + os.sep
     assetName = hou.hipFile.basename()
 
@@ -66,5 +69,7 @@ def run():
                 print('Waaaaaaarning code this section, a file already exist, save not done')
             else:
                 hou.hipFile.save(savedFile)
-                hou.ui.displayMessage('Asset saved at ' + savedFile)
+                hou.ui.displayMessage('Asset saved at ' + savedFile)"""
 
+if __name__ == "__main__":
+    print("test")

@@ -40,6 +40,7 @@ class MenuSaveOperator(bpy.types.Operator):
         return {'FINISHED'}
     
     def save_asset(self,context):
+        print("youpi")
         asset_gui = gui.SaveAssetGUI("Test", self.save_callback)
         asset_gui.show()
 

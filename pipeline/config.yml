@@ -1,6 +1,6 @@
 #Templates :
 #todo define finale file_name : {AssetName_Version}
-Version : "work_{Version}"
+Version : "{Version}"
 AssetFileName : "{AssetName}_$Version.{ext}"
 Project : "C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D"
 AssetPath : "{AssetType}/{AssetName}"

@@ -5,14 +5,14 @@ import subprocess
 def save_asset(path_file):
     p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
                           r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
-                          '--path='+path_file], shell=True, stdout=subprocess.PIPE)
+                          '--path='+path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)
     print("test5")
     out = ""
     print("### out process ###")
     #print(p.stdout.readlines())
     print("### end out processs ###")
     for i in p.stdout.readlines():
-        #print("aaa")
+        print(i)
         if b"save path_id" in i:
             out = str(i)
             #cleaning out string :
@@ -36,13 +36,18 @@ def increment(path_file):
                           r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\engine\increment.py',
                           '--path=' + path_file], shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     new_path = ""
-    out = p.stdout.readlines()
-    for i in out:
-        print(i)
-        if b'new_path =' in i:
-            new_path = i
-            new_path = cleaning(new_path)
-            print("path found, new_path = "+new_path)
+    err = p.stderr.readlines()
+    if len(err)>=1:
+        print("errors : "+str(err))
+        new_path = str(p.stderr.readlines())
+    else:
+        out = p.stdout.readlines()
+        for i in out:
+            print(i)
+            if b'new_path =' in i:
+                new_path = i
+                new_path = cleaning(new_path)
+                print("path found, new_path = "+new_path)
 
     return new_path
     #get the datas from the path
@@ -74,25 +79,10 @@ def increment(path_file):
     #   return new_path
 
 if __name__=="__main__":
-    save_asset("")
-    #increment("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/Test/Task_Test/Subtask_Test/work_005/Test_work_005.kra")
-    """krita code : 
-    from pipeline.tools.engine.krita import krita_shelf as shelf
-import importlib
-importlib.reload(shelf)
-doc = Krita.instance().activeDocument()
-if doc:
-    path_id = shelf.save_asset(doc.fileName())
-    if path_id != "":
-        print("path_id = "+path_id)
-        name =path_id#"C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Test/Test/Test/Test/001"
-        name += ".kra"
-        doc.saveAs(name)
-    
-    """
-"""fileName = QFileDialog.getSaveFileName()[0]
-print("filename = "+fileName)
-print("file_name = "+file_name)
-# And export the document to the fileName location.
-# InfoObject is a dictionary with specific export options, but when we make an empty one Krita will use the export defaults.
-doc.exportImage(file_name, InfoObject())"""
+    save_asset(r"C:\Users\Natspir\NatspirProd\03_WORK_PIPE\01_ASSET_3D\Concept\MandalaPower\Psyched\Base\006\MandalaPower_006.kra")
+    #increment("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
+    """import subprocess
+        path_file = r"C:\\Users\\Natspir\\NatspirProd\\03_WORK_PIPE\\01_ASSET_3D\\Concept\\MandalaPower\\Psyched\\Base\\006\\MandalaPower_006.kra"
+        p = subprocess.Popen([r'C:\\Users\\Natspir\\Documents\\Code\\Python\\AssetManager\\venv\\Scripts\\Python.exe',
+                              r'C:\\Users\\Natspir\\Documents\\Code\\Python\\NSVFXPipeline\\pipeline\\tools\\GUI\\save_asset_gui.py',
+                              '--path='+path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)"""
