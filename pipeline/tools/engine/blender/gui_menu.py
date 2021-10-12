@@ -1,5 +1,4 @@
 # GUI part of the menu
-
 import bpy
 
 class customMenu(bpy.types.Menu):

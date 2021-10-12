@@ -25,3 +25,25 @@ def make_asset_path(asset_datas):
 def explore_file(path):
     print("open path")
     os.startfile(path)
+
+def save_asset(path_file, ext):
+    import subprocess
+    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
+                          r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
+                          '--path='+path_file, '--ext='+ext], shell=True, stdout=subprocess.PIPE)
+    print("test5")
+    out = ""
+    print("### out process ###")
+    #print(p.stdout.readlines())
+    print("### end out processs ###")
+    for i in p.stdout.readlines():
+        print(i)
+        if b"save path_id" in i:
+            out = str(i)
+            #cleaning out string :
+            out = out.split("=")
+            out = out[1]
+            out = out.replace(r"\r\n'", "")
+            out = out.replace(" ","")
+    print("out = "+out)
+    return out

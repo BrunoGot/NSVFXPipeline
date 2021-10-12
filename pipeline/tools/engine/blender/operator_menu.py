@@ -41,8 +41,12 @@ class MenuSaveOperator(bpy.types.Operator):
     
     def save_asset(self,context):
         print("youpi")
-        asset_gui = gui.SaveAssetGUI("Test", self.save_callback)
-        asset_gui.show()
+        #asset_gui =#SaveAssetGUI("Test", self.save_callback) 
+        path = bpy.data.filepath
+        p = gui.save_asset(path)
+        print("p = "+p)
+        bpy.ops.wm.save_as_mainfile(filepath=p)
+        #asset_gui.show()
 
 
     def save_callback(self, asset_datas):

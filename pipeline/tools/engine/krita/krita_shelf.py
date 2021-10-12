@@ -79,7 +79,7 @@ def increment(path_file):
     #   return new_path
 
 if __name__=="__main__":
-    save_asset(r"C:\Users\Natspir\NatspirProd\03_WORK_PIPE\01_ASSET_3D\Concept\MandalaPower\Psyched\Base\006\MandalaPower_006.kra")
+    save_asset("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
     #increment("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
     """import subprocess
         path_file = r"C:\\Users\\Natspir\\NatspirProd\\03_WORK_PIPE\\01_ASSET_3D\\Concept\\MandalaPower\\Psyched\\Base\\006\\MandalaPower_006.kra"
