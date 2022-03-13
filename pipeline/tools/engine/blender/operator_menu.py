@@ -14,12 +14,10 @@ if lucidity_path not in sys.path:
 import bpy
 import importlib
 from pipeline import *
-import pipeline.fileSystem as fs
-from pipeline.tools.engine.blender import gui_save_asset as gui
+from pipeline.tools.engine.blender import blender_shelf as shelf
 from pipeline.tools.engine import engine
 
-importlib.reload(fs)
-importlib.reload(gui)
+importlib.reload(shelf)
 importlib.reload(engine)
 
     
@@ -43,20 +41,11 @@ class MenuSaveOperator(bpy.types.Operator):
         print("youpi")
         #asset_gui =#SaveAssetGUI("Test", self.save_callback) 
         path = bpy.data.filepath
-        p = gui.save_asset(path)
+        p = shelf.save_asset(path)
         print("p = "+p)
-        bpy.ops.wm.save_as_mainfile(filepath=p)
+        if p:
+            bpy.ops.wm.save_as_mainfile(filepath=p)
         #asset_gui.show()
-
-
-    def save_callback(self, asset_datas):
-        #path = fs.asset_base_path
-        #path += "\\" + fs.get_path({"AssetType" : asset_datas["type"],"AssetName" : asset_datas["name"], "Task" : asset_datas["task"], "Subtask" : asset_datas["subtask"], "Version" : asset_datas["version"]})
-        #path +="\\filename"
-        #print("saving at path {}".format(path))
-        path = engine.make_asset_path(asset_datas)
-        path+="\\test.blend"
-        bpy.ops.wm.save_as_mainfile(filepath=path)
         
 ###################
 ######Open file######

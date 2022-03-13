@@ -3,7 +3,7 @@ import sys
 
 import PyQt6.QtGui
 import lucidity.error
-from Qt import QtWidgets, QtGui,QtCore
+from PyQt6 import QtWidgets, QtGui,QtCore
 import argparse
 from multiprocessing import Process, Pipe
 
@@ -271,13 +271,15 @@ def set_gui_style(app):
         app.setStyleSheet(qss)
 
 def show_gui():
+    print("show gui")
     app = QtWidgets.QApplication(sys.argv)
     set_gui_style(app)
     gui = SaveAssetGUI()
     gui.show()
-    app.exec_()
+    app.exec()
 
 if __name__ == "__main__":
+    #print("test")
     show_gui()
     """datas = {"AssetType": "type", "AssetName": "name", "Task": "task", "Subtask": "subtask", "Version": "version"}
     folder_path = fs.get_folder_path(datas)

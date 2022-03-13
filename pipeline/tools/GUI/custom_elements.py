@@ -1,6 +1,7 @@
 import sys
-from Qt import QtWidgets, QtGui
-from Qt.QtCore import Signal
+import PyQt6
+from PyQt6 import QtWidgets, QtGui
+from PyQt6.QtCore import pyqtSignal as Signal
 
 
 class NsQlineEdit(QtWidgets.QLineEdit):

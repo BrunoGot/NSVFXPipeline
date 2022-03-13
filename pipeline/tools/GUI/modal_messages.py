@@ -1,7 +1,7 @@
 import sys
-
-from Qt import QtWidgets, QtGui,QtCore
-from Qt.QtWidgets import QDialog
+import PyQt6
+from PyQt6 import QtWidgets, QtGui,QtCore
+from PyQt6.QtWidgets import QDialog
 
 class ErrorDialog(QDialog):
     def __init__(self,msg, details = ''):

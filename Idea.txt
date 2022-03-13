@@ -1,0 +1,16 @@
+pipeline dev
+
+base it on env var
+set a very new user session on windows
+
+each selection/creation of a new project configure some specific env Var
+ - system env var
+ - blender env
+ - houdini env
+ - krita env
+ 
+
+Tool Idea : 
+Cache manager : 
+Open a window in houdini that setting the default path of the Rop caches
+Display nb frames, generated or not, generate button, size, location, broken link or not

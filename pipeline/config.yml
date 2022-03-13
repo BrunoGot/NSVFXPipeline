@@ -2,7 +2,7 @@
 #todo define finale file_name : {AssetName_Version}
 Version : "{Version}"
 AssetFileName : "{AssetName}_$Version.{ext}"
-Project : "C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D"
+Project : "D:/Prod/03_WORK_PIPE/01_ASSET_3D"
 AssetPath : "{AssetType}/{AssetName}"
 FileFolder : "{AssetType}/{AssetName}/{Task}/{Subtask}/$Version/" #path to the folder
 AssetFilePath : "{AssetType}/{AssetName}/{Task}/{Subtask}/$Version/$AssetFileName" #path to the asset file

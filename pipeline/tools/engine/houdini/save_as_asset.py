@@ -1,12 +1,12 @@
 import os
-import hou
 import subprocess
 
 def run():
+    #print("test")
     path_file = ""#hou.hipFile.path()
-    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
+    p = subprocess.Popen([r'C:\Program Files\Side Effects Software\Houdini 18.5.408\python27\python.exe',
                           r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
-                          '--path=' + path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)
+                          '--path=' + path_file, '--ext=kra'], shell=True, stderr=subprocess.PIPE)
     """assetPathFile = fs.asset_base_path   # to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
     pipelineSubPath = os.sep + '3d' + os.sep + 'scenes' + os.sep
     assetName = hou.hipFile.basename()
@@ -72,4 +72,7 @@ def run():
                 hou.ui.displayMessage('Asset saved at ' + savedFile)"""
 
 if __name__ == "__main__":
+    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\dist\save_asset_gui.exe',
+                          '--path=C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D\\Save_as\\Pipeline_Test\\Blender\\Deployment_Test\\001\\MandalaPower_007.blend', '--ext=blend'], shell=False, stdout=subprocess.PIPE)
+
     print("test")
