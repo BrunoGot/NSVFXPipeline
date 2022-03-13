@@ -96,7 +96,7 @@ todo :
     <memberTool name="NS_set_project"/>
     <memberTool name="generate_flipbook"/>
   </toolshelf>
-    <!-- to implement : <memberTool name="View_FlipBook"/>    <memberTool name="save_as_draft"/>-->
+
   <tool name="NS_pull_cache" label="Pull Cache" icon="hicon:/SVGIcons.index?BUTTONS_download.svg">
     <script scriptType="python"><![CDATA[import houdini.pull_cache as pull_cache_tool
 reload(pull_cache_tool )
@@ -105,6 +105,7 @@ pull_cache_tool.run()]]></script>
 
   <tool name="NS_save_as_asset" label="Save As Asset" icon="hicon:/SVGIcons.index?BUTTONS_match_scale.svg">
     <script scriptType="python"><![CDATA[import houdini.save_as_asset as asset
+from importlib import reload
 reload(asset)
 asset.run()
 
