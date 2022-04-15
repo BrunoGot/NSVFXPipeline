@@ -1,12 +1,50 @@
 import os
 import subprocess
+import sys
+
+from pipeline.tools.engine import engine
+from pipeline import fileSystem as fs
+
 
 def run():
-    #print("test")
+    print("test works")
+    p = subprocess.Popen([r"D:\Documents\Code\C++\NSPipelineGUI\NSPipelinePOC\Builds\VisualStudio2022\x64\Debug\App\NSPipelinePOC.exe", "arg1", "arg2"], shell=False,
+                         stdout=subprocess.PIPE)
+    print("test")
+    print("### out process ###")
+    asset_datas = {}
+    raw_datas = ""
+    for i in p.stdout.readlines():
+        print(i)
+        if b"out path = " in i:
+            raw_datas = str(i)
+            raw_datas = raw_datas.replace("out path = ", "")
+            raw_datas = raw_datas.replace(" ", "")
+            raw_datas = raw_datas.replace("b'", "")
+            raw_datas = raw_datas.replace(r"\r\n'", "")
+            break
+    if raw_datas:
+        raw_datas = raw_datas.replace(" ","")
+        for d in raw_datas.split(","):
+            # cleaning out string :
+            data = d.split(":")
+            asset_datas[data[0]]=data[1]
+    print("result = {}".format(asset_datas))
+    print("### end out processs ###")
+
+    if asset_datas:
+        if "ext" not in asset_datas:
+            asset_datas["ext"] = "hip"
+        path_id = engine.make_asset_path(asset_datas)
+        # asset_file_path = fs.conf.asset_file_name.format(asset_datas)
+        path_id = os.path.join(path_id, fs.conf.asset_file_name.format(asset_datas))
+        print("path_id = {}".format(path_id))
     path_file = ""#hou.hipFile.path()
+    """
     p = subprocess.Popen([r'C:\Program Files\Side Effects Software\Houdini 18.5.408\python27\python.exe',
-                          r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
+                          r"C:/Users/Natspir/Documents/Code/Python/NSVFXPipeline/pipeline/tools/GUI/save_asset_gui.py"],
                           '--path=' + path_file, '--ext=kra'], shell=True, stderr=subprocess.PIPE)
+    """
     """assetPathFile = fs.asset_base_path   # to do : define the pipeline path in a config file. Set possibility to save in or outside the pipeline
     pipelineSubPath = os.sep + '3d' + os.sep + 'scenes' + os.sep
     assetName = hou.hipFile.basename()
@@ -72,7 +110,8 @@ def run():
                 hou.ui.displayMessage('Asset saved at ' + savedFile)"""
 
 if __name__ == "__main__":
-    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\dist\save_asset_gui.exe',
-                          '--path=C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D\\Save_as\\Pipeline_Test\\Blender\\Deployment_Test\\001\\MandalaPower_007.blend', '--ext=blend'], shell=False, stdout=subprocess.PIPE)
+    p = subprocess.Popen([r"C:\Users\Natspir\AppData\Local\Programs\Python\Python39\python.exe",r"C:\Users\Natspir\Documents\Code\Python\AssetSaver\main.py"],shell=False, stdout=subprocess.PIPE)
+
+  #'--path=D:/Prod/03_WORK_PIPE/01_ASSET_3D\\Save_as\\Pipeline_Test\\Blender\\Deployment_Test\\001\\MandalaPower_007.blend', '--ext=blend'], shell=False, stdout=subprocess.PIPE)
 
     print("test")

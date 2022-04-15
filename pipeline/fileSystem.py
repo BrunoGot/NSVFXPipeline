@@ -1,13 +1,17 @@
 import sys
 import os
+lucidity_path = r"C:\Users\Natspir\PycharmProjects\AssetManager\venv\Lib\site-packages"
+
+if lucidity_path not in sys.path:
+    sys.path.append(lucidity_path)
 import lucidity
 
 import importlib
-path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline"
+path = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline"
 if path not in sys.path :
     sys.path.append(path)
 import pipeline_config as config
-from pipeline.tools.GUI import modal_messages as msg
+#from pipeline.tools.GUI import modal_messages as msg
 
 #reload(config) not handled on python 3
 

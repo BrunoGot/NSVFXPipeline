@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-path = r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline'
+path = r'D:\Documents\Code\Python\NSVFXPipeline'
 if path not in sys.path:
     sys.path.append(path)
 import pipeline.fileSystem as fs

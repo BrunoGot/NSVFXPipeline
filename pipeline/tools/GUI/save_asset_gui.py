@@ -1,14 +1,14 @@
 import os
 import sys
 
-import PyQt6.QtGui
 import lucidity.error
-from PyQt6 import QtWidgets, QtGui,QtCore
+from PyQt6 import QtWidgets, QtGui
+from PyQt6 import QtCore
 import argparse
 from multiprocessing import Process, Pipe
 
 ##pipeline libs##
-path = r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline'
+path = r'D:\Documents\Code\Python\NSVFXPipeline'
 if path not in sys.path:
     sys.path.append(path)
 from pipeline.tools.engine import engine

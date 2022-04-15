@@ -4,7 +4,7 @@ import os
 
 houdini_tools_path = r"pipeline\tools\engine"
 #todo : create a new env var VFX_PIPELINE that pointing on the pipeline base folder
-__framework_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline"
+__framework_path = r"D:\Documents\Code\Python\NSVFXPipeline"
 HDA_folder = __framework_path+os.sep+houdini_tools_path+os.sep+r"houdini\HDAs"
 
 def get_houdini_path():

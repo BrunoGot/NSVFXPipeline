@@ -6,13 +6,13 @@ import hou
 #just add the path to this file in the en var HOUDINI_SCRIPT_PATH
 
 print("load NSpipeline : "+os.getcwd())
-pipeline_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline" #framework.get_framework_path()
+pipeline_path = r"D:\Documents\Code\Python\NSVFXPipeline" #framework.get_framework_path()
 
 if(pipeline_path not in sys.path):
     sys.path.append(pipeline_path)
 
 import pipeline.framework_config as frameworkConfig
-houdini_tools_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\engine" #os.path.join(pipeline_path,frameworkConfig.get_framework_path())
+houdini_tools_path = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline\tools\engine" #os.path.join(pipeline_path,frameworkConfig.get_framework_path())
 print("houdini_tools_path = "+houdini_tools_path)
 if(houdini_tools_path not in sys.path):
     print("add path to houdini tools in sypath")

@@ -3,8 +3,8 @@ import subprocess
 #import pipeline.fileSystem as fs
 
 def save_asset(path_file):
-    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
-                          r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
+    p = subprocess.Popen([r'D:\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
+                          r'D:\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
                           '--path='+path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)
     print("test5")
     out = ""
@@ -79,7 +79,7 @@ def increment(path_file):
     #   return new_path
 
 if __name__=="__main__":
-    save_asset("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
+    save_asset("D:/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
     #increment("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
     """import subprocess
         path_file = r"C:\\Users\\Natspir\\NatspirProd\\03_WORK_PIPE\\01_ASSET_3D\\Concept\\MandalaPower\\Psyched\\Base\\006\\MandalaPower_006.kra"

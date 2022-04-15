@@ -1,5 +1,5 @@
 import sys
-path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline"
+path = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline"
 if path not in sys.path :
     sys.path.append(path)
 
@@ -20,7 +20,7 @@ file_name_template = "{}_v{:03d}"
 out_img_patern = "$hipname.mantra_ipr.$F4.exr"
 out_flip_pattern = ".flip.$F4.jpeg"
 
-__pipeline_path = r"C:\Users\Natspir\Prod\projects"
+__pipeline_path = r"D:\Natspir\Prod\projects"
 
 def get_pipeline_path():
     return __pipeline_path

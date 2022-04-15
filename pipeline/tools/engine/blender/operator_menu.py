@@ -1,6 +1,6 @@
 #here are the core function of the menu
-lib_path = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline"
-lib_path_pipeline = r"C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline"
+lib_path = r"D:\Documents\Code\Python\NSVFXPipeline"
+lib_path_pipeline = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline"
 lucidity_path = r"C:\Users\Natspir\PycharmProjects\AssetManager\venv\Lib\site-packages"
 import sys
 

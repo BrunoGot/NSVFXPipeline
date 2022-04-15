@@ -28,8 +28,8 @@ def explore_file(path):
 
 def save_asset(path_file, ext):
     import subprocess
-    p = subprocess.Popen([r'C:\Users\Natspir\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
-                          r'C:\Users\Natspir\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
+    p = subprocess.Popen([r'D:\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
+                          r'D:\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
                           '--path='+path_file, '--ext='+ext], shell=True, stdout=subprocess.PIPE)
     print("test5")
     out = ""
