@@ -1,45 +1,18 @@
 import os
+import importlib
 import subprocess
 import sys
+import hou
 
 from pipeline.tools.engine import engine
-from pipeline import fileSystem as fs
+importlib.reload(engine)
 
 
 def run():
-    print("test works")
-    p = subprocess.Popen([r"D:\Documents\Code\C++\NSPipelineGUI\NSPipelinePOC\Builds\VisualStudio2022\x64\Debug\App\NSPipelinePOC.exe", "arg1", "arg2"], shell=False,
-                         stdout=subprocess.PIPE)
-    print("test")
-    print("### out process ###")
-    asset_datas = {}
-    raw_datas = ""
-    for i in p.stdout.readlines():
-        print(i)
-        if b"out path = " in i:
-            raw_datas = str(i)
-            raw_datas = raw_datas.replace("out path = ", "")
-            raw_datas = raw_datas.replace(" ", "")
-            raw_datas = raw_datas.replace("b'", "")
-            raw_datas = raw_datas.replace(r"\r\n'", "")
-            break
-    if raw_datas:
-        raw_datas = raw_datas.replace(" ","")
-        for d in raw_datas.split(","):
-            # cleaning out string :
-            data = d.split(":")
-            asset_datas[data[0]]=data[1]
-    print("result = {}".format(asset_datas))
-    print("### end out processs ###")
-
-    if asset_datas:
-        if "ext" not in asset_datas:
-            asset_datas["ext"] = "hip"
-        path_id = engine.make_asset_path(asset_datas)
-        # asset_file_path = fs.conf.asset_file_name.format(asset_datas)
-        path_id = os.path.join(path_id, fs.conf.asset_file_name.format(asset_datas))
-        print("path_id = {}".format(path_id))
-    path_file = ""#hou.hipFile.path()
+    path_id = engine.save_asset()
+    print("path ready to save = {}".format(path_id))
+    if path_id:
+        path_file = hou.hipFile.save(path_id)
     """
     p = subprocess.Popen([r'C:\Program Files\Side Effects Software\Houdini 18.5.408\python27\python.exe',
                           r"C:/Users/Natspir/Documents/Code/Python/NSVFXPipeline/pipeline/tools/GUI/save_asset_gui.py"],

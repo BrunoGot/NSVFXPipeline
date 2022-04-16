@@ -1,6 +1,8 @@
 import os
 import pipeline.fileSystem as fs
 import importlib
+import subprocess
+
 importlib.reload(fs)
 """common framework for all engine"""
 def make_asset_path(asset_datas):
@@ -26,24 +28,39 @@ def explore_file(path):
     print("open path")
     os.startfile(path)
 
-def save_asset(path_file, ext):
-    import subprocess
-    p = subprocess.Popen([r'D:\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
-                          r'D:\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
-                          '--path='+path_file, '--ext='+ext], shell=True, stdout=subprocess.PIPE)
-    print("test5")
-    out = ""
+def save_asset(path_file="", ext=""):
+    print("test works")
+    p = subprocess.Popen(
+        [r"D:\Documents\Code\C++\NSPipelineGUI\NSPipelinePOC\Builds\VisualStudio2022\x64\Debug\App\NSPipelinePOC.exe",
+         "arg1", "arg2"], shell=False,
+        stdout=subprocess.PIPE)
+    print("test")
     print("### out process ###")
-    #print(p.stdout.readlines())
-    print("### end out processs ###")
+    asset_datas = {}
+    raw_datas = ""
     for i in p.stdout.readlines():
         print(i)
-        if b"save path_id" in i:
-            out = str(i)
-            #cleaning out string :
-            out = out.split("=")
-            out = out[1]
-            out = out.replace(r"\r\n'", "")
-            out = out.replace(" ","")
-    print("out = "+out)
-    return out
+        if b"out path = " in i:
+            raw_datas = str(i)
+            raw_datas = raw_datas.replace("out path = ", "")
+            raw_datas = raw_datas.replace(" ", "")
+            raw_datas = raw_datas.replace("b'", "")
+            raw_datas = raw_datas.replace(r"\r\n'", "")
+            break
+    if raw_datas:
+        raw_datas = raw_datas.replace(" ", "")
+        for d in raw_datas.split(","):
+            # cleaning out string :
+            data = d.split(":")
+            asset_datas[data[0]] = data[1]
+    print("result = {}".format(asset_datas))
+    print("### end out processs ###")
+    path_id = ""
+    if asset_datas:
+        if "ext" not in asset_datas:
+            asset_datas["ext"] = "hip"
+        path_id = make_asset_path(asset_datas)
+        # asset_file_path = fs.conf.asset_file_name.format(asset_datas)
+        path_id = os.path.join(path_id, fs.conf.asset_file_name.format(asset_datas))
+        print("path_id = {}".format(path_id))
+    return path_id
