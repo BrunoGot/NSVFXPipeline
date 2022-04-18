@@ -1,0 +1,1 @@
+Save as checkpoint : save the asset but stay on the actual version

@@ -55,12 +55,5 @@ def save_asset(path_file="", ext=""):
             asset_datas[data[0]] = data[1]
     print("result = {}".format(asset_datas))
     print("### end out processs ###")
-    path_id = ""
-    if asset_datas:
-        if "ext" not in asset_datas:
-            asset_datas["ext"] = "hip"
-        path_id = make_asset_path(asset_datas)
-        # asset_file_path = fs.conf.asset_file_name.format(asset_datas)
-        path_id = os.path.join(path_id, fs.conf.asset_file_name.format(asset_datas))
-        print("path_id = {}".format(path_id))
-    return path_id
+
+    return asset_datas

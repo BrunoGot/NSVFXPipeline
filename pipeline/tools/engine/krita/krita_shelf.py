@@ -1,27 +1,27 @@
+import os
 import subprocess
-#import os
-#import pipeline.fileSystem as fs
+import sys
+
+lib_path_pipeline = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline"
+
+if lib_path_pipeline not in sys.path:
+    sys.path.append(lib_path_pipeline)
+
+from pipeline.tools.engine import engine
+from pipeline import fileSystem as fs
 
 def save_asset(path_file):
-    p = subprocess.Popen([r'D:\Documents\Code\Python\AssetManager\venv\Scripts\Python.exe',
-                          r'D:\Documents\Code\Python\NSVFXPipeline\pipeline\tools\GUI\save_asset_gui.py',
-                          '--path='+path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)
-    print("test5")
-    out = ""
-    print("### out process ###")
-    #print(p.stdout.readlines())
-    print("### end out processs ###")
-    for i in p.stdout.readlines():
-        print(i)
-        if b"save path_id" in i:
-            out = str(i)
-            #cleaning out string :
-            out = out.split("=")
-            out = out[1]
-            out = out.replace(r"\r\n'", "")
-            out = out.replace(" ","")
-    print("out = "+out)
-    return out
+    asset_datas = engine.save_asset()
+    ###todo:should go into a new save_asset method from engine###
+    if asset_datas:
+        if "ext" not in asset_datas:
+            asset_datas["ext"] = "kra"
+        base_path = engine.make_asset_path(asset_datas)
+        path_id = os.path.join(base_path, fs.conf.asset_file_name.format(asset_datas))
+        print("path_id = {}".format(path_id))
+    print("path ready to save = {}".format(path_id))
+    ###
+    return path_id
 
 def cleaning(out_bstring):
     out = str(out_bstring)
