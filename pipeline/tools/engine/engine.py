@@ -29,11 +29,20 @@ def explore_file(path):
     os.startfile(path)
 
 def save_asset(path_file="", ext=""):
-    print("test works")
-    p = subprocess.Popen(
-        [r"D:\Documents\Code\C++\NSPipelineGUI\NSPipelinePOC\Builds\VisualStudio2022\x64\Debug\App\NSPipelinePOC.exe",
-         "arg1", "arg2"], shell=False,
-        stdout=subprocess.PIPE)
+    print("check if datas can be extrcated from the input path")
+    if path_file:
+        datas = fs.get_datas_from_path(path_file)
+        print("datas = {}".format(datas))
+    if datas:
+        p = subprocess.Popen(
+            [r"D:\Documents\Code\C++\NSPipelineGUI\NSPipelinePOC\Builds\VisualStudio2022\x64\Debug\App\NSPipelinePOC.exe",
+             datas["AssetType"], datas["AssetName"],datas["Task"],datas["Subtask"],datas["Version"]], shell=False,
+            stdout=subprocess.PIPE)
+    else :
+        p = subprocess.Popen(
+            [r"D:\Documents\Code\C++\NSPipelineGUI\NSPipelinePOC\Builds\VisualStudio2022\x64\Debug\App\NSPipelinePOC.exe"], shell=False,
+            stdout=subprocess.PIPE)
+
     print("test")
     print("### out process ###")
     asset_datas = {}
@@ -57,3 +66,6 @@ def save_asset(path_file="", ext=""):
     print("### end out processs ###")
 
     return asset_datas
+
+if __name__=="__main__":
+    save_asset(path_file="D:/Prod/03_WORK_PIPE/01_ASSET_3D/Tutorial/PopNetTextureTrail/HDACreation/1/v002/PopNetTextureTrail_v002.hipnc")

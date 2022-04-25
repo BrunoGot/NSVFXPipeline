@@ -1,1 +1,5 @@
 Save as checkpoint : save the asset but stay on the actual version
+gerer les filps et rendus:
+ - set houdini project to save location
+ - saturday on work
+- code review

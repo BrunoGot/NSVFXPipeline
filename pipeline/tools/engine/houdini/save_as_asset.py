@@ -11,7 +11,8 @@ importlib.reload(engine)
 
 def run():
     path_id = ""
-    asset_datas = engine.save_asset() #save_asset() should be named other like get asset_datas
+    path = hou.hipFile.path()
+    asset_datas = engine.save_asset(path) #save_asset() should be named other like get asset_datas
     ###todo:should go into a new save_asset method from engine###
     if asset_datas:
         if "ext" not in asset_datas:
