@@ -30,6 +30,7 @@ def explore_file(path):
 
 def save_asset(path_file="", ext=""):
     print("check if datas can be extrcated from the input path")
+    datas = None
     if path_file:
         datas = fs.get_datas_from_path(path_file)
         print("datas = {}".format(datas))

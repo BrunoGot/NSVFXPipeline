@@ -1,7 +1,7 @@
 #Templates :
 #todo define finale file_name : {AssetName_Version}
 Version : "{Version}"
-AssetFileName : "{AssetName}_$Version.{ext}"
+AssetFileName : "{AssetName}__{Task}__{Subtask}_$Version.{ext}"
 Project : "D:/Prod/03_WORK_PIPE/01_ASSET_3D"
 AssetPath : "{AssetType}/{AssetName}"
 FileFolder : "{AssetType}/{AssetName}/{Task}/{Subtask}/$Version/" #path to the folder

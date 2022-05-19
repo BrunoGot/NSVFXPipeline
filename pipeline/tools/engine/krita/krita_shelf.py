@@ -11,7 +11,7 @@ from pipeline.tools.engine import engine
 from pipeline import fileSystem as fs
 
 def save_asset(path_file):
-    asset_datas = engine.save_asset()
+    asset_datas = engine.save_asset(path_file=path_file)
     ###todo:should go into a new save_asset method from engine###
     if asset_datas:
         if "ext" not in asset_datas:
