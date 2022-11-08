@@ -23,9 +23,12 @@ def run():
     print("path ready to save = {}".format(path_id))
     ###
     if path_id:
-        print("base_path = {}".format(base_path))
-        path_file = hou.hipFile.save(path_id)
+        base_path = base_path.replace("\\","/" )
+        print("JOB1 = {}".format(base_path))
         os.environ["JOB"] = base_path
+        hou.hscript("set -g JOB = {}".format(base_path))
+        hou.hipFile.save(path_id)
+    return path_id
 
 if __name__ == "__main__":
     run()
