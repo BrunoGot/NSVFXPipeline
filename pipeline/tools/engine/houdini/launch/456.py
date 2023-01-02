@@ -39,5 +39,16 @@ for hda in os.listdir(hda_folder):
     print("HDA loaded = "+hda)
     hda_path = hda_folder+os.sep+hda
     hou.hda.installFile(hda_path)
+"""small exemple about how to add callback event    
+print("colors settings")
+hou.hscript("colorsettings -p -A")
+def scene_event_callback(event_type):
+    print("event_type = {}".format(event_type))
+    if event_type == hou.hipFileEventType.AfterLoad:
+        r = hou.hscript("colorsettings -p -A")
+        print(r)
+hou.hipFile.addEventCallback(scene_event_callback)
+
+"""
 #for all elements in HDA folder
 #   instal HDAs
