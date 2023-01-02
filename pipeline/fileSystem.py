@@ -147,14 +147,30 @@ def get_datas_from_path(path):
     """parsing assets datas from the pipeline path. return the parsed datas using lucidity. May be temporary function"""
     conf = config.Config("default")
     try:
-        path = path.replace("\\", "/")
-        if asset_base_path in path :
-            path = path.replace(asset_base_path+"/", "")
-        print("fs path = "+path)
-        datas = conf.asset_file_path.parse(path)
+        asset_path = _isolate_asset_path(path)
+        datas = conf.asset_file_path.parse(asset_path)
     except lucidity.ParseError:
         datas = None
     return datas
+
+def _isolate_asset_path(path):
+    """
+    get a file path from the saved scene and isolate the pipeline asset path
+    :return str asset_path:
+    """
+    print("path = {}".format(path))
+    asset_path = path.replace("\\", "/")
+    print("asset_base_path = {}".format(asset_base_path))
+    if asset_base_path in asset_path:
+        asset_path = asset_path.replace(asset_base_path + "/", "")
+    print("isolated path = {}".format(asset_path))
+    return asset_path
+
+def get_render_path(path):
+    conf = config.Config("default")
+    asset_path = _isolate_asset_path(path)
+    datas = conf.asset_file_path.parse(asset_path)
+    return conf.render_path.format(datas)
 
 def increment(path_file):
     #get the datas from the path

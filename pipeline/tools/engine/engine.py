@@ -10,11 +10,11 @@ def make_asset_path(asset_datas):
 
     #base root path of the project
     project_path = fs.asset_base_path
-    print("project_path = "+project_path)
+    print("project path = "+project_path)
 
     #generate the path from theses datas
     path = os.path.join(project_path, fs.get_folder_path(asset_datas))
-
+    path.replace("\\","/")
     #make the path
     #if the path doesn't exist create it
     if not os.path.exists(path):

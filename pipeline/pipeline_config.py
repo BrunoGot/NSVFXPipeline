@@ -148,3 +148,12 @@ class Config():
     print(template_file.pattern)
     print(template_workspace.pattern)
     print(template_render.pattern)"""
+
+if __name__ == "__main__":
+    conf = Config("default")
+
+    path = r"Save_as/Pipeline_Test/Blender/Deployment_Test/001/Pipeline_Test__Blender__Deployment_Test_007.blend"
+    print("version pattern = {}".format(conf.version.pattern))
+    data = conf.asset_file_path.parse(path)
+    print("asset file path = {}".format( data))
+    print("{}".format(conf.render_path.format(data)))

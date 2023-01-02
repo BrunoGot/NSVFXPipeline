@@ -95,6 +95,7 @@ todo :
     <memberTool name="NS_save_as_asset"/>
     <memberTool name="NS_set_project"/>
     <memberTool name="generate_flipbook"/>
+    <memberTool name="save_version"/>
   </toolshelf>
 
   <tool name="NS_pull_cache" label="Pull Cache" icon="hicon:/SVGIcons.index?BUTTONS_download.svg">
