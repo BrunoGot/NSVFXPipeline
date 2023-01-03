@@ -9,9 +9,17 @@ if lib_path_pipeline not in sys.path:
 
 from pipeline.tools.engine import engine
 from pipeline import fileSystem as fs
+from pipeline.tools.engine.krita.gui_save_concept import SaveConceptGUI
+from PyQt5 import QtWidgets
+import sys
 
-def save_asset(path_file):
-    asset_datas = engine.save_asset(path_file=path_file)
+def save_asset(path_file, mainWindow):
+    #app = QtWidgets.QApplication(sys.argv)
+    tool = SaveConceptGUI(mainWindow)
+    #tool.exec_()
+    #sys.exit(app.exec_())
+
+    """asset_datas = engine.save_asset(path_file=path_file)
     ###todo:should go into a new save_asset method from engine###
     if asset_datas:
         if "ext" not in asset_datas:
@@ -21,7 +29,7 @@ def save_asset(path_file):
         print("path_id = {}".format(path_id))
     print("path ready to save = {}".format(path_id))
     ###
-    return path_id
+    return path_id"""
 
 def cleaning(out_bstring):
     out = str(out_bstring)
@@ -82,7 +90,7 @@ if __name__=="__main__":
     save_asset("D:/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
     #increment("C:/Users/Natspir/NatspirProd/03_WORK_PIPE/01_ASSET_3D/Concept/MandalaPower/Psyched/Base/007/MandalaPower_007.kra")
     """import subprocess
-        path_file = r"C:\\Users\\Natspir\\NatspirProd\\03_WORK_PIPE\\01_ASSET_3D\\Concept\\MandalaPower\\Psyched\\Base\\006\\MandalaPower_006.kra"
-        p = subprocess.Popen([r'C:\\Users\\Natspir\\Documents\\Code\\Python\\AssetManager\\venv\\Scripts\\Python.exe',
+    path_file = r"D:\\NatspirProd\\03_WORK_PIPE\\01_ASSET_3D\\Concept\\MandalaPower\\Psyched\\Base\\006\\MandalaPower_006.kra"
+    p = subprocess.Popen([r'C:\\Users\\Natspir\\Documents\\Code\\Python\\AssetManager\\venv\\Scripts\\Python.exe',
                               r'C:\\Users\\Natspir\\Documents\\Code\\Python\\NSVFXPipeline\\pipeline\\tools\\GUI\\save_asset_gui.py',
                               '--path='+path_file, '--ext=kra'], shell=True, stdout=subprocess.PIPE)"""

@@ -28,7 +28,7 @@ class SaveAssetGUI(QtWidgets.QWidget):
         print("args = "+str(args.path))
         self.asset_path = args.path
         self.asset_ext = args.ext
-        print("ext = " + self.asset_ext)
+        #print("ext = " + self.asset_ext)
 
         #normalize the path with only '/' path
         self.asset_path = self.asset_path.replace("\\\\","/")
