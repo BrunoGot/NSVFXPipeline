@@ -1,7 +1,9 @@
-#import Qt
+import sys
+import os
+
+#from krita import *
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets as qt
-import sys
 
 from pipeline.tools.engine import engine
 from pipeline import fileSystem as fs
@@ -13,24 +15,26 @@ class SaveConceptGUI(qt.QWidget):
         self.setParent(parent, QtCore.Qt.Window)
         self.init_ui()
     def init_ui(self):
-        print("yaaa")
         self.setWindowTitle('Asset Manager')
         self.setGeometry(10,10,640,480)
         self.mainlayout = qt.QVBoxLayout()
         ##lines
         self.project_line = self.add_line_edit("Project : ", "")
-        self.asset_name_line = self.add_line_edit("Asset : ", "")
+        self.asset_line = self.add_line_edit("Asset : ", "")
         self.task_line = self.add_line_edit("Task : ", "")
         self.subtask_line = self.add_line_edit("Subtask : ", "")
         self.iteration_line = self.add_line_edit("Iteration : ", "")
-        action_layout = qt.QHBoxLayout()
+        self.action_layout = qt.QHBoxLayout()
         self.save_button = qt.QPushButton("Save Asset")
-        self.save_button.clicked.connect(self.save)
-        action_layout.addWidget(self.save_button)
+        #self.save_button.clicked.connect(self.save)
+        self.action_layout.addWidget(self.save_button)
+        self.connect(self.save_button, QtCore.SIGNAL('clicked()'),self.save)
         self.cancel_button = qt.QPushButton("Cancel Asset")
-        action_layout.addWidget(self.cancel_button)
-        self.mainlayout.addLayout(action_layout)
-
+        self.cancel_button.clicked.connect(self.cancel)
+        self.action_layout.addWidget(self.cancel_button)
+        self.mainlayout.addLayout(self.action_layout)
+        self.console = qt.QLabel("")
+        self.mainlayout.addWidget(self.console)
         self.mainlayout.addWidget(self.save_button)
         self.setLayout(self.mainlayout)
         self.show()
@@ -45,27 +49,41 @@ class SaveConceptGUI(qt.QWidget):
         return input_field
 
     def save(self):
-        print("save")
         #check input value
-        name = self.name_input.text()
-        type = self.type_input.text()
-        task = self.task_input.text()
-        subtask = self.subtask_input.text()
-        version = self.version_input.text()
-        #if they are good :
-        error_msg, check_value_flag = self.check_value(name, type, task, subtask, version)
-        if check_value_flag is True:
-            # configure path
-            path = self.get_path_id(name, type, task, subtask, version)
-            #print the path
-            #print("save : name = {}, type = {}, task = {},subtask = {}, version = {}".format(name, type, task, subtask, version ))
-            path = path.replace("\\","/")
-            #path+="/"+name+"_"+version
-            print("save path_id = "+ path)
-            self.event_flag = True
-            self.close()
-        else: #print an error message
-            self.console.setText(error_msg)
+        try:
+            project = self.project_line.text()
+            asset = self.asset_line.text()
+            task = self.task_line.text()
+            subtask = self.subtask_line.text()
+            iteration = self.iteration_line.text()
+            #if they are good :
+            error_msg, check_value_flag = self.check_value(project, asset, task, subtask, iteration)
+            if check_value_flag is True:
+                # configure path
+                asset_datas = {"AssetType" : project, "AssetName" : asset, "Task" : task, "Subtask" : subtask, "Version": iteration, "ext" : "kra"}
+                base_path = engine.make_asset_path(asset_datas) #same in blender_shelf save_asset
+                path_id = os.path.join(base_path, fs.conf.asset_file_name.format(asset_datas))
+                print("path ready to save = {}".format(path_id))
+                self.event_flag = True
+
+                """
+                to move in krita engine
+                """
+                """doc = Krita.instance().activeDocument()
+                if os.path.exists(doc.fileName()):  # si le fichier a déja été sauvegardé une fois
+                    doc.setFileName(path_id)
+                    doc.save()
+                else:
+                    doc.saveAs(path_id)"""
+
+                self.close()
+            else: #print an error message
+                self.console.setText(error_msg)
+        except Exception as e:
+            self.console.setText("Error while saving : {0}".format(e))
+
+    def cancel(self):
+        self.close()
 
     def get_path_id(self, name, type, task, subtask, version):
         asset_datas = {"AssetType": type, "AssetName": name, "Task": task, "Subtask": subtask, "Version": version, "ext":self.asset_ext}
@@ -99,7 +117,7 @@ def main():
     print("main")
     app = qt.QApplication(sys.argv)
     ex = SaveConceptGUI()
-    app.exec()
+    app.exec_()
 
 class SaveConceptGUI2:
 
