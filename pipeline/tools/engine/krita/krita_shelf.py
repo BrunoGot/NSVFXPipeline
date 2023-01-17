@@ -12,10 +12,14 @@ from pipeline import fileSystem as fs
 from pipeline.tools.engine.krita.gui_save_concept import SaveConceptGUI
 from PyQt5 import QtWidgets
 import sys
-
+"""import importlib
+importlib.reload(SaveConceptGUI)
+"""
 def save_asset(path_file, mainWindow):
     #app = QtWidgets.QApplication(sys.argv)
-    tool = SaveConceptGUI(mainWindow)
+    tool = SaveConceptGUI()
+    #tool = SaveConceptGUI(mainWindow)
+
     #tool.exec_()
     #sys.exit(app.exec_())
 
