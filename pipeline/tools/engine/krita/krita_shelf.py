@@ -17,8 +17,8 @@ importlib.reload(SaveConceptGUI)
 """
 def save_asset(path_file, mainWindow):
     #app = QtWidgets.QApplication(sys.argv)
-    tool = SaveConceptGUI()
-    #tool = SaveConceptGUI(mainWindow)
+    #tool = SaveConceptGUI()
+    tool = SaveConceptGUI(mainWindow)
 
     #tool.exec_()
     #sys.exit(app.exec_())

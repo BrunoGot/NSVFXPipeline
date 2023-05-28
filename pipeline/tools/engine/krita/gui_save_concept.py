@@ -18,13 +18,13 @@ from PyQt5.QtGui import QColor, QImage
 
 """todo: faire une classe mere save asset, faire derriver SaveConceptGUI et Save_asset de cette classe """
 class SaveConceptGUI(DockWidget):
-    def __init__(self):
+    def __init__(self, parent):
         super().__init__()
 
+        self.setParent(parent)
         self.setWindowTitle("Rogudator's comic panel generator")
 
         mainLayout = QVBoxLayout()
-
         # l means label
         # b means push button
         # sp means spinbox
