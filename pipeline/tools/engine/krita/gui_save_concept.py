@@ -10,7 +10,7 @@ from PyQt5.QtCore import QObject
 from pipeline.tools.engine import engine
 from pipeline import fileSystem as fs
 
-from PyQt5.QtWidgets import QGraphicsRectItem, QGraphicsView, QVBoxLayout, QMainWindow, QGraphicsScene, QLabel, QPushButton, QHBoxLayout, QSpinBox, QSlider, QCheckBox, QScrollArea, QWidget, QApplication, QColorDialog, QGraphicsItem
+from PyQt5.QtWidgets import QLineEdit, QGraphicsRectItem, QGraphicsView, QVBoxLayout, QMainWindow, QGraphicsScene, QLabel, QPushButton, QHBoxLayout, QSpinBox, QSlider, QCheckBox, QScrollArea, QWidget, QApplication, QColorDialog, QGraphicsItem
 from PyQt5.Qt import Qt
 from PyQt5.QtSvg import QGraphicsSvgItem, QSvgRenderer
 from PyQt5.QtGui import QColor, QImage
@@ -18,6 +18,16 @@ from PyQt5.QtGui import QColor, QImage
 
 """todo: faire une classe mere save asset, faire derriver SaveConceptGUI et Save_asset de cette classe """
 class SaveConceptGUI(DockWidget):
+    project_structure = {}
+    def add_pipeline_folder(self, label_name):
+        layout = QHBoxLayout()
+        project_label = QLabel(label_name)
+        layout.addWidget(project_label)
+        project_line_edit = QLineEdit()
+        layout.addWidget(project_line_edit)
+        self.project_structure[label_name] = project_line_edit
+        return layout
+
     def __init__(self, parent):
         super().__init__()
 
@@ -35,189 +45,21 @@ class SaveConceptGUI(DockWidget):
         l_preview.setText("Preview:")
         mainLayout.addWidget(l_preview)
 
-        #self.rcpg_object = RCPG()
-        #self.rcpg_object.refresh_svg_renderer()
 
-        #renderer = self.rcpg_object.svg_renderer
-        self.svg_item = QGraphicsSvgItem()
-        #self.svg_item.setSharedRenderer(renderer)
+        mainLayout.addLayout(self.add_pipeline_folder("Project"))
+        mainLayout.addLayout(self.add_pipeline_folder("Name"))
+        mainLayout.addLayout(self.add_pipeline_folder("Task"))
+        mainLayout.addLayout(self.add_pipeline_folder("Subtask"))
+        mainLayout.addLayout(self.add_pipeline_folder("Version"))
 
-        #self.preview = Page_preview()
-        #self.preview.scene().addItem(self.svg_item)
-        #mainLayout.addWidget(self.preview)
+        """self.name_input = self.add_line_edit("name : ", self.asset_name)
+        self.type_input = self.add_line_edit("Type : ", self.asset_name)
+        self.task_input = self.add_line_edit("Task : ", self.asset_name)
+        self.subtask_input = self.add_line_edit("Subtask : ", self.asset_name)
+        self.version_input = self.add_line_edit("Version : ", "001")"""
 
-        #self.set_clickable_gutters()
 
-        l_generate = QLabel(self)
-        l_generate.setText("Generate as:")
-        mainLayout.addWidget(l_generate)
 
-        b_layer = QPushButton(self)
-        b_layer.setText("Layer")
-
-        b_file = QPushButton(self)
-        b_file.setText("File")
-
-        file_and_layer = QHBoxLayout(self)
-        file_and_layer.addWidget(b_layer)
-        file_and_layer.addWidget(b_file)
-        mainLayout.addLayout(file_and_layer)
-
-        l_num_rows = QLabel(self)
-        l_num_rows.setText("Number of rows:")
-        mainLayout.addWidget(l_num_rows)
-
-        self.sp_num_rows = QSpinBox(self)
-        self.sp_num_rows.setValue(2)
-        self.sp_num_rows.setMinimum(1)
-
-        self.sl_num_rows = QSlider(self)
-        self.sl_num_rows.setMinimum(1)
-        self.sl_num_rows.setMaximum(6)
-        self.sl_num_rows.setOrientation(Qt.Horizontal)
-        self.sl_num_rows.setTickPosition(1)
-        self.sl_num_rows.setTickInterval(1)
-        self.sl_num_rows.setMinimumWidth(100)
-        self.sl_num_rows.setValue(2)
-
-        num_rows = QHBoxLayout(self)
-        num_rows.addWidget(self.sp_num_rows)
-        num_rows.addWidget(self.sl_num_rows)
-        mainLayout.addLayout(num_rows)
-
-        l_num_columns = QLabel(self)
-        l_num_columns.setText("Numer of columns:")
-        mainLayout.addWidget(l_num_columns)
-
-        self.sp_num_columns = QSpinBox(self)
-        self.sp_num_columns.setValue(2)
-        self.sp_num_columns.setMinimum(1)
-
-        self.sl_num_columns = QSlider(self)
-        self.sl_num_columns.setMinimum(1)
-        self.sl_num_columns.setMaximum(6)
-        self.sl_num_columns.setOrientation(Qt.Horizontal)
-        self.sl_num_columns.setTickPosition(1)
-        self.sl_num_columns.setTickInterval(1)
-        self.sl_num_columns.setMinimumWidth(100)
-        self.sl_num_columns.setValue(2)
-
-        num_columns = QHBoxLayout(self)
-        num_columns.addWidget(self.sp_num_columns)
-        num_columns.addWidget(self.sl_num_columns)
-        mainLayout.addLayout(num_columns)
-
-        l_gutter = QLabel(self)
-        l_gutter.setText("Gutters")
-        mainLayout.addWidget(l_gutter)
-
-        self.cb_gutter_equal = QCheckBox(self)
-        self.cb_gutter_equal.setText("Horizontal and vertical gutters are equal")
-        self.cb_gutter_equal.setChecked(True)
-        mainLayout.addWidget(self.cb_gutter_equal)
-
-        l_hgutter = QLabel(self)
-        l_hgutter.setText("Size of a horizontal gutter:")
-        mainLayout.addWidget(l_hgutter)
-
-        self.hgutter_updated = True
-
-        #self.hgutter_max = int(self.rcpg_object.height_page / (self.rcpg_object.rows + 1))
-
-        self.sp_hgutter = QSpinBox(self)
-        self.sp_hgutter.setValue(30)
-        self.sp_hgutter.setMinimum(1)
-        #self.sp_hgutter.setMaximum(self.hgutter_max)
-
-        self.sl_hgutter = QSlider(self)
-        self.sl_hgutter.setMaximum(1)
-        #self.sl_hgutter.setMaximum(self.hgutter_max)
-        self.sl_hgutter.setOrientation(Qt.Horizontal)
-        self.sl_hgutter.setTickInterval(1)
-        self.sl_hgutter.setMinimumWidth(100)
-        self.sl_hgutter.setValue(30)
-
-        hgutter = QHBoxLayout(self)
-        hgutter.addWidget(self.sp_hgutter)
-        hgutter.addWidget(self.sl_hgutter)
-        mainLayout.addLayout(hgutter)
-
-        l_vgutter = QLabel(self)
-        l_vgutter.setText("Size of a vertical gutter:")
-        mainLayout.addWidget(l_vgutter)
-
-        self.vgutter_updated = True
-
-        #self.vgutter_max = int(self.rcpg_object.width_page / (self.rcpg_object.columns + 1))
-
-        self.sp_vgutter = QSpinBox(self)
-        self.sp_vgutter.setValue(30)
-        self.sp_vgutter.setMinimum(1)
-        #self.sp_vgutter.setMaximum(self.vgutter_max)
-
-        self.sl_vgutter = QSlider(self)
-        self.sl_vgutter.setMaximum(1)
-        #self.sl_vgutter.setMaximum(self.vgutter_max)
-        self.sl_vgutter.setOrientation(Qt.Horizontal)
-        self.sl_vgutter.setTickInterval(1)
-        self.sl_vgutter.setMinimumWidth(100)
-        self.sl_vgutter.setValue(30)
-
-        vgutter = QHBoxLayout(self)
-        vgutter.addWidget(self.sp_vgutter)
-        vgutter.addWidget(self.sl_vgutter)
-        mainLayout.addLayout(vgutter)
-
-        l_cgutter = QLabel(self)
-        l_cgutter.setText("Color of the gutter:")
-        mainLayout.addWidget(l_cgutter)
-
-        self.l_color_gutter = QLabel(self)
-        self.l_color_gutter.setText("#000000")
-
-        b_color_gutter = QPushButton(self)
-        b_color_gutter.setText("Change")
-
-        color_of_gutter = QHBoxLayout(self)
-        color_of_gutter.addWidget(self.l_color_gutter)
-        color_of_gutter.addWidget(b_color_gutter)
-        mainLayout.addLayout(color_of_gutter)
-
-        l_outline = QLabel(self)
-        l_outline.setText("Size of panel outline:")
-        mainLayout.addWidget(l_outline)
-
-        self.sp_outline = QSpinBox(self)
-        self.sp_outline.setValue(6)
-        self.sp_outline.setMinimum(0)
-
-        self.sl_outline = QSlider(self)
-        self.sl_outline.setMinimum(0)
-        self.sl_outline.setMaximum(98)
-        self.sl_outline.setOrientation(Qt.Horizontal)
-        self.sl_outline.setTickInterval(1)
-        self.sl_outline.setMinimumWidth(100)
-        self.sl_outline.setValue(6)
-
-        outline = QHBoxLayout(self)
-        outline.addWidget(self.sp_outline)
-        outline.addWidget(self.sl_outline)
-        mainLayout.addLayout(outline)
-
-        l_color_outline = QLabel(self)
-        l_color_outline.setText("Color of panel outline:")
-        mainLayout.addWidget(l_color_outline)
-
-        self.l_color_outline = QLabel(self)
-        self.l_color_outline.setText("#ffffff")
-
-        b_color_outline = QPushButton(self)
-        b_color_outline.setText("Change")
-
-        color_of_outline = QHBoxLayout(self)
-        color_of_outline.addWidget(self.l_color_outline)
-        color_of_outline.addWidget(b_color_outline)
-        mainLayout.addLayout(color_of_outline)
 
         self.scrollMainLayout = QScrollArea(self)
         self.scrollMainLayout.setWidgetResizable(True)

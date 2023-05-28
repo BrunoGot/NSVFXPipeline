@@ -16,24 +16,7 @@ import sys
 importlib.reload(SaveConceptGUI)
 """
 def save_asset(path_file, mainWindow):
-    #app = QtWidgets.QApplication(sys.argv)
-    #tool = SaveConceptGUI()
     tool = SaveConceptGUI(mainWindow)
-
-    #tool.exec_()
-    #sys.exit(app.exec_())
-
-    """asset_datas = engine.save_asset(path_file=path_file)
-    ###todo:should go into a new save_asset method from engine###
-    if asset_datas:
-        if "ext" not in asset_datas:
-            asset_datas["ext"] = "kra"
-        base_path = engine.make_asset_path(asset_datas)
-        path_id = os.path.join(base_path, fs.conf.asset_file_name.format(asset_datas))
-        print("path_id = {}".format(path_id))
-    print("path ready to save = {}".format(path_id))
-    ###
-    return path_id"""
 
 def cleaning(out_bstring):
     out = str(out_bstring)
@@ -62,27 +45,6 @@ def increment(path_file):
                 print("path found, new_path = "+new_path)
 
     return new_path
-    #get the datas from the path
-    """datas = fs.get_datas_from_path(path_file)
-    print("datas = "+str(datas))
-    #if datas are valids :
-    if datas :
-        digit_version = datas["Version"]
-        folder_name = fs.conf.version.format({"Version":digit_version})
-        exist = True
-        new_path = path_file
-        while exist == True:
-            #convert to in, increment it, then convert it back to string
-            digit_version = int(digit_version,)
-            digit_version+=1
-            digit_version = f"{digit_version:03}"
-            #update the datas with the new work iteration
-            datas["Version"] = digit_version
-            new_path = fs.get_path(datas)
-            #if the path doesn't exist yet, it's ok let's break the loop, else go for a new iteration
-            if not os.path.exists(new_path):
-                exist = False
-        print("new_path = "+new_path)"""
 
         #print("digit = "+digit)
 
