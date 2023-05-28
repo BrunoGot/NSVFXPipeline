@@ -29,9 +29,16 @@ class SaveConceptGUI(DockWidget):
         return layout
 
     def __init__(self, parent):
+        """
+        inspired from https://github.com/rogudator/rogudators_comic_panel_generator
+        :param parent: qwindows or widget to attach to
+        """
         super().__init__()
+        qt.QWidget.__init__(self)
 
         self.setParent(parent)
+        #self.setParent(parent, QtCore.Qt.Window) #to get a windows framed ui
+
         self.setWindowTitle("Rogudator's comic panel generator")
 
         mainLayout = QVBoxLayout()
@@ -59,37 +66,16 @@ class SaveConceptGUI(DockWidget):
         self.version_input = self.add_line_edit("Version : ", "001")"""
 
 
-
-
         self.scrollMainLayout = QScrollArea(self)
         self.scrollMainLayout.setWidgetResizable(True)
         self.scrollMainLayout.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-
-        """b_file.clicked.connect(self.b_file_create)
-        b_layer.clicked.connect(self.b_layer_create)
-        self.sp_num_rows.valueChanged.connect(self.upd_sp_num_rows)
-        self.sl_num_rows.valueChanged.connect(self.upd_sl_num_rows)
-        self.sp_num_columns.valueChanged.connect(self.upd_sp_num_columns)
-        self.sl_num_columns.valueChanged.connect(self.upd_sl_num_columns)
-        self.sp_hgutter.valueChanged.connect(self.upd_sp_hgutter)
-        self.sl_hgutter.valueChanged.connect(self.upd_sl_hgutter)
-        self.sp_vgutter.valueChanged.connect(self.upd_sp_vgutter)
-        self.sl_vgutter.valueChanged.connect(self.upd_sl_vgutter)
-        b_color_gutter.clicked.connect(self.color_gutter_dialog)
-        self.sp_outline.valueChanged.connect(self.upd_sp_outline)
-        self.sl_outline.valueChanged.connect(self.upd_sl_outline)
-        b_color_outline.clicked.connect(self.color_outline_dialog)"""
-
         self.window = QWidget(self)
         self.window.setLayout(mainLayout)
         self.scrollMainLayout.setWidget(self.window)
         self.setWidget(self.scrollMainLayout)
         self.show()
-    """def __init__(self, ):
-        super().__init__()
-        #qt.QWidget.__init__(self)
-        #self.setParent(parent, QtCore.Qt.Window)
-        self.init_ui()"""
+
+        #self.init_ui()
 
     def init_ui(self):
         self.setWindowTitle('Asset Manager')
