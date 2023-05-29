@@ -37,17 +37,11 @@ class SaveConceptGUI(DockWidget):
         QWidget.__init__(self)
 
         #self.setParent(parent)
-        self.setParent(parent, QtCore.Qt.Window) #to get a windows framed ui
+        #self.setParent(parent, QtCore.Qt.Window) #to get a windows framed ui
 
         self.setWindowTitle("Rogudator's comic panel generator")
 
         mainLayout = QVBoxLayout()
-        # l means label
-        # b means push button
-        # sp means spinbox
-        # sl means slider
-        # cb means combobox
-
         l_preview = QLabel(self)
         l_preview.setText("Preview:")
         mainLayout.addWidget(l_preview)
@@ -68,17 +62,10 @@ class SaveConceptGUI(DockWidget):
         self.save_btn.clicked.connect(self.save)
         button_layout.addWidget(self.save_btn)
 
-        self.console = QLabel("consol")
+        self.console = QLabel("console")
         mainLayout.addWidget(self.console)
 
         mainLayout.addLayout(button_layout)
-
-
-        """self.name_input = self.add_line_edit("name : ", self.asset_name)
-        self.type_input = self.add_line_edit("Type : ", self.asset_name)
-        self.task_input = self.add_line_edit("Task : ", self.asset_name)
-        self.subtask_input = self.add_line_edit("Subtask : ", self.asset_name)
-        self.version_input = self.add_line_edit("Version : ", "001")"""
 
 
         self.scrollMainLayout = QScrollArea(self)
@@ -136,13 +123,6 @@ class SaveConceptGUI(DockWidget):
 
     def cancel(self):
         self.close()
-
-    def get_path_id(self, name, type, task, subtask, version):
-        asset_datas = {"AssetType": type, "AssetName": name, "Task": task, "Subtask": subtask, "Version": version, "ext":self.asset_ext}
-        path_id = engine.make_asset_path(asset_datas)
-        #asset_file_path = fs.conf.asset_file_name.format(asset_datas)
-        path_id = os.path.join(path_id,fs.conf.asset_file_name.format(asset_datas))
-        return path_id
 
     def check_value(self, name, type, task, subtask, version):
         flag = True
