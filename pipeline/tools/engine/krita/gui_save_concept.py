@@ -34,10 +34,10 @@ class SaveConceptGUI(DockWidget):
         :param parent: qwindows or widget to attach to
         """
         super().__init__()
-        qt.QWidget.__init__(self)
+        QWidget.__init__(self)
 
-        self.setParent(parent)
-        #self.setParent(parent, QtCore.Qt.Window) #to get a windows framed ui
+        #self.setParent(parent)
+        self.setParent(parent, QtCore.Qt.Window) #to get a windows framed ui
 
         self.setWindowTitle("Rogudator's comic panel generator")
 
@@ -59,6 +59,21 @@ class SaveConceptGUI(DockWidget):
         mainLayout.addLayout(self.add_pipeline_folder("Subtask"))
         mainLayout.addLayout(self.add_pipeline_folder("Version"))
 
+        button_layout = QHBoxLayout()
+        cancel_btn = QPushButton("Cancel")
+        cancel_btn.clicked.connect(self.close)
+        button_layout.addWidget(cancel_btn)
+
+        self.save_btn = QPushButton("Save")
+        self.save_btn.clicked.connect(self.save)
+        button_layout.addWidget(self.save_btn)
+
+        self.console = QLabel("consol")
+        mainLayout.addWidget(self.console)
+
+        mainLayout.addLayout(button_layout)
+
+
         """self.name_input = self.add_line_edit("name : ", self.asset_name)
         self.type_input = self.add_line_edit("Type : ", self.asset_name)
         self.task_input = self.add_line_edit("Task : ", self.asset_name)
@@ -75,40 +90,6 @@ class SaveConceptGUI(DockWidget):
         self.setWidget(self.scrollMainLayout)
         self.show()
 
-        #self.init_ui()
-
-    def init_ui(self):
-        self.setWindowTitle('Asset Manager')
-        self.setGeometry(10,10,640,480)
-        self.main_widget = qt.QWidget()
-        button = qt.QPushButton("test")
-        self.main_widget.setLayout(qt.QHBoxLayout())
-        button.clicked.connect(self.close1)
-        self.main_widget.layout().addWidget(button)
-        """self.mainlayout = qt.QVBoxLayout()
-        ##lines
-        self.project_line = self.add_line_edit("Project : ", "")
-        self.asset_line = self.add_line_edit("Asset : ", "")
-        self.task_line = self.add_line_edit("Task : ", "")
-        self.subtask_line = self.add_line_edit("Subtask : ", "")
-        self.iteration_line = self.add_line_edit("Iteration : ", "")
-        self.action_layout = qt.QHBoxLayout()
-        self.save_button = qt.QPushButton("Save Asset11")
-        self.save_button.clicked.connect(self.close1)
-        self.action_layout.addWidget(self.save_button)
-        #QtCore.Q
-        #connect(self.save_button, QtCore.SIGNAL('clicked()'),self.close1)
-        self.cancel_button = qt.QPushButton("Cancel Asset")
-        self.cancel_button.clicked.connect(self.cancel)
-        self.action_layout.addWidget(self.cancel_button)
-        self.mainlayout.addLayout(self.action_layout)
-        self.console = qt.QLabel("pfff")
-        self.mainlayout.addWidget(self.console)
-        self.mainlayout.addWidget(self.save_button)
-        self.main_widget.setLayout(self.mainlayout)
-        """
-        self.setWidget(self.main_widget)
-        self.show()
 
     def add_line_edit(self, label, value):
         layout = qt.QHBoxLayout()
@@ -119,18 +100,14 @@ class SaveConceptGUI(DockWidget):
         self.mainlayout.addLayout(layout)
         return input_field
 
-    @pyqtSlot(bool)
-    def close1(self, val):
-        self.console.setText("Teeeeees")
-
     def save(self):
         #check input value
         try:
-            project = self.project_line.text()
-            asset = self.asset_line.text()
-            task = self.task_line.text()
-            subtask = self.subtask_line.text()
-            iteration = self.iteration_line.text()
+            project = self.project_structure["Project"].text()
+            asset = self.project_structure["Name"].text()
+            task = self.project_structure["Task"].text()
+            subtask = self.project_structure["Subtask"].text()
+            iteration = self.project_structure["Version"].text()
             #if they are good :
             error_msg, check_value_flag = self.check_value(project, asset, task, subtask, iteration)
             if check_value_flag is True:
@@ -144,12 +121,12 @@ class SaveConceptGUI(DockWidget):
                 """
                 to move in krita engine
                 """
-                """doc = Krita.instance().activeDocument()
+                doc = Krita.instance().activeDocument()
                 if os.path.exists(doc.fileName()):  # si le fichier a déja été sauvegardé une fois
                     doc.setFileName(path_id)
                     doc.save()
                 else:
-                    doc.saveAs(path_id)"""
+                    doc.saveAs(path_id)
 
                 self.close()
             else: #print an error message
@@ -188,68 +165,6 @@ class SaveConceptGUI(DockWidget):
             flag = False
         return error, flag
 
-def main():
-    print("main")
-    app = qt.QApplication(sys.argv)
-    ex = SaveConceptGUI()
-    app.exec_()
-
-class SaveConceptGUI2:
-
-    def __init__(self):
-        self.asset_name = "test"
-        self.asset_coords = {} #datas of the recorded asset
-        self.main_layout = qt.QVBoxLayout()
-
-    def gui(self):
-        self.name_input = self.add_line_edit("name : ", self.asset_name)
-        self.type_input = self.add_line_edit("Type : ", self.asset_name)
-        self.task_input = self.add_line_edit("Task : ", self.asset_name)
-        self.subtask_input = self.add_line_edit("Subtask : ", self.asset_name)
-        self.version_input = self.add_line_edit("Version : ", "001")
-
-        # buttons valid or cancel
-        h_button_layout = qt.QHBoxLayout()
-        button_validate = qt.QPushButton("Save")
-        #button_validate.clicked.connect(self.save)
-        h_button_layout.addWidget(button_validate)
-        button_cancel = qt.QPushButton("Cancel")
-        #button_cancel.clicked.connect(self.cancel)
-        h_button_layout.addWidget(button_cancel)
-        self.main_layout.addLayout(h_button_layout)
-        return self.main_layout
-
-
-    def add_line_edit(self, label, value):
-        widget_name = qt.QLabel(label)
-        self.main_layout.addWidget(widget_name)
-        input_field = qt.QLineEdit(value)
-        self.main_layout.addWidget(input_field)
-        return input_field
-
-    def show(self):
-        # creation de l'application
-        if not qt.QApplication.instance():
-            self.app = qt.QApplication(sys.argv)
-        else:
-            self.app = qt.QApplication.instance()
-
-        # creation de la fenetre
-        self.mainWindow = qt.QMainWindow()
-
-        main_layout = self.gui()
-        self.mainWindow.setLayout(main_layout)
-
-        self.mainWindow.show()
-        # """
-        # button = qt.QPushButton("Hello bande de batard !!")
-        # button.show()
-        # """
-        #self.show()
-
-
-if __name__ == "__main__":
-    main()
     
 """
 #Code to test in the console : 

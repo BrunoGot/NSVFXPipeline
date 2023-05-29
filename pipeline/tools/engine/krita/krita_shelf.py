@@ -15,8 +15,10 @@ import sys
 """import importlib
 importlib.reload(SaveConceptGUI)
 """
+
+tool = None
 def save_asset(path_file, mainWindow):
-    tool = SaveConceptGUI(mainWindow)
+    return SaveConceptGUI(mainWindow)
 
 def cleaning(out_bstring):
     out = str(out_bstring)
