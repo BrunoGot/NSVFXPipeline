@@ -1,3 +1,8 @@
 build/
 dist/
 *.pyc
+pipeline/tools/engine/blender/scripts/addons/commotion/
+pipeline/tools/engine/blender/scripts/addons/dynamic_parent-master/.gitignore
+pipeline/tools/engine/blender/scripts/addons/dynamic_parent-master/
+pipeline/tools/engine/blender/scripts/addons/Lodify-master/
+pipeline/tools/engine/blender/scripts/addons/Substance3DInBlender/
