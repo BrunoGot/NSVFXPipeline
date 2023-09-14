@@ -1,6 +1,6 @@
 import sys
 import os
-lucidity_path = r"C:\Users\Natspir\PycharmProjects\AssetManager\venv\Lib\site-packages"
+lucidity_path = r"C:\Users\Natspir\AppData\Local\Programs\Python\Python39\Lib\site-packages"
 
 if lucidity_path not in sys.path:
     sys.path.append(lucidity_path)
