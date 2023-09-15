@@ -1,4 +1,4 @@
-import sys
+"""SaveConceptGUI is the actual gui for krita"""
 import os
 
 from krita import *
