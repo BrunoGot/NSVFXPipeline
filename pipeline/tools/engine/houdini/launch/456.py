@@ -27,11 +27,11 @@ print("set environement variables.....")
 dirpath = os.path.dirname(hou.hipFile.path())
 hou.hscript("set -g HOUDINI_GEOMETRY_PATH = " +"\$HIP/cache")
 #use load_shelves() => hou.hscript("set -g HOUDINI_TOOLBAR_PATH = " +r'"C:/Users/Natspir/Documents/houdini18.0/toolbar/custom";&')
-print("HOUDINI_GEOMETRY_PATH = "+ "$HIP/cache")
+print("HOUDINI_GEOMETRY_PATH = $HIP/cache")
 #print("HOUDINI_TOOLBAR_PATH = "+ hou.getenv("HOUDINI_TOOLBAR_PATH"))
 
 #set shelves :
-shelf_manager.load_shelves()
+shelf_manager.load_shelf()
 
 #import HDAs
 hda_folder = frameworkConfig.get_HDAs_folder()

@@ -5,7 +5,7 @@ import subprocess
 
 importlib.reload(fs)
 """common framework for all engine"""
-def make_asset_path(asset_datas):
+def make_asset_path(asset_datas): #should go in file system ??? !!!
     #asset_datas is a pack of infos as {"AssetType" : asset_type,"AssetName" : asset_name, "Task" : task, "Subtask" : subtask, "Version" : version}
 
     #base root path of the project

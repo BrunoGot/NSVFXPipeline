@@ -6,3 +6,6 @@ pipeline/tools/engine/blender/scripts/addons/commotion/
 pipeline/tools/engine/blender/scripts/addons/dynamic_parent-master/
 pipeline/tools/engine/blender/scripts/addons/Lodify-master/
 pipeline/tools/engine/blender/scripts/addons/Substance3DInBlender/
+venv/Lib/site-packages/PySide2/resources/icudtl.dat
+venv/Lib/site-packages/PySide2/Qt5WebEngineCore.dll
+venv/Lib/site-packages/PySide2/opengl32sw.dll

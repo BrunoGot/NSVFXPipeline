@@ -7,18 +7,24 @@ lib_path_pipeline = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline"
 if lib_path_pipeline not in sys.path:
     sys.path.append(lib_path_pipeline)
 
-from pipeline.tools.engine import engine
+from pipeline.tools.engine.krita import krita_engine
 from pipeline import fileSystem as fs
-from pipeline.tools.engine.krita.gui_save_concept import SaveConceptGUI
-from PyQt5 import QtWidgets
-import sys
-"""import importlib
-importlib.reload(SaveConceptGUI)
-"""
+from pipeline.tools.engine.krita.krita_save_ui import KritaSaveUI
 
+import sys
+import importlib
+importlib.reload(krita_engine)
+
+###############
+
+
+#################
 tool = None
 def save_asset(path_file, mainWindow):
-    return SaveConceptGUI(mainWindow)
+    return KritaSaveUI(krita_engine, path_file)#SaveConceptGUI(mainWindow)
+
+def export():
+    krita_engine.export_image()
 
 def cleaning(out_bstring):
     out = str(out_bstring)

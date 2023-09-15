@@ -11,9 +11,8 @@ path = r"D:\Documents\Code\Python\NSVFXPipeline\pipeline"
 if path not in sys.path :
     sys.path.append(path)
 import pipeline_config as config
-#from pipeline.tools.GUI import modal_messages as msg
 
-#reload(config) not handled on python 3
+#from pipeline.tools.GUI import modal_messages as msg
 
 #create and manage pipeline folder structure according to the pipeline configuration file
 
@@ -149,9 +148,23 @@ def get_datas_from_path(path):
     try:
         asset_path = _isolate_asset_path(path)
         datas = conf.asset_file_path.parse(asset_path)
-    except lucidity.ParseError:
+    except lucidity.ParseError as e:
+        print(f"error reading path : {e}")
         datas = None
     return datas
+
+
+def get_cache_folder(datas):
+    """
+    return the path to the cache folder according to the input datas
+    :param datas:  {'AssetName': 'SessionBulleATruc', 'AssetType': 'MotionDesign', 'Subtask': 'HoudiniBFull', 'Task': 'HexagonParticles', 'Version': '001', 'ext': 'hipnc'}
+
+    :return:
+    """
+    cache_path = conf.caches_path.format(datas)
+    cache_path = os.path.join(asset_base_path,cache_path)
+    return cache_path
+
 
 def _isolate_asset_path(path):
     """
@@ -171,6 +184,14 @@ def get_render_path(path):
     asset_path = _isolate_asset_path(path)
     datas = conf.asset_file_path.parse(asset_path)
     return conf.render_path.format(datas)
+
+def get_publish_path(path):
+    conf = config.Config("default")
+    asset_path = _isolate_asset_path(path)
+    datas = conf.asset_file_path.parse(asset_path)
+    # print(datas)
+    return conf.publish_path.format(datas)
+
 
 def increment(path_file):
     #get the datas from the path

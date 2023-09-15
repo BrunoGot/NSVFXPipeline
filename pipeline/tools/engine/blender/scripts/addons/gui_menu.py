@@ -55,11 +55,7 @@ class MenuSaveOperator(bpy.types.Operator):
         print("youpi")
         #asset_gui =#SaveAssetGUI("Test", self.save_callback) 
         path = bpy.data.filepath
-        p = shelf.save_asset(path)
-        print("p = "+p)
-        if p:
-            bpy.ops.wm.save_as_mainfile(filepath=p)
-        #asset_gui.show()
+        shelf.save_asset(path)
         
 ###################
 ######Open file######
