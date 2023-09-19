@@ -149,7 +149,8 @@ def get_datas_from_path(path):
     try:
         asset_path = _isolate_asset_path(path)
         datas = conf.asset_file_path.parse(asset_path)
-    except lucidity.ParseError:
+    except lucidity.ParseError as e:
+        print(f"error reading path : {e}")
         datas = None
     return datas
 

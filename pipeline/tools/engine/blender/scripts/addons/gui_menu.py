@@ -57,10 +57,9 @@ class MenuSaveOperator(bpy.types.Operator):
         path = bpy.data.filepath
         p = shelf.save_asset(path)
 
-        """print("p = "+p)
+        print("p = "+p)
         if p:
-            bpy.ops.wm.save_as_mainfile(filepath=p)"""
-        #asset_gui.show()
+            bpy.ops.wm.save_as_mainfile(filepath=p)
         
 ###################
 ######Open file######
