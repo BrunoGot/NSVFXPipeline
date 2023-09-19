@@ -9,12 +9,14 @@ from pipeline import fileSystem as fs
 
 
 class BlenderSaveUI(QWidget):
-    def __init__(self):
+    def __init__(self, engine):
         super(BlenderSaveUI, self).__init__()
+        self.engine = engine
         self.project_structure = {}
         self.datas = {}
         self.base_path = r'D:/Prod/03_WORK_PIPE/01_ASSET_3D'
         self.current_selected_path = self.base_path
+
 
         # GUI panel
         main_layout = QVBoxLayout()
@@ -51,7 +53,7 @@ class BlenderSaveUI(QWidget):
         button_layout.addWidget(cancel_btn)
         main_layout.addLayout(button_layout)
         self.setLayout(main_layout)
-        self.show()
+        #self.show()
 
     def tree_node_clicked(self, item):
         print(f"QStandardItem = {item.parent()}")
@@ -125,17 +127,19 @@ class BlenderSaveUI(QWidget):
     def on_save(self):
         for i, j in self.project_structure.items():
             self.datas[i] = j.text()
+        self.engine.save(self.datas)
         self.close()
 
     def on_close(self):
         self.close()
 
 
-def show_ui():
+def show_ui(engine):
     app = QApplication.instance()
     if not app:
         app = QApplication(sys.argv)
-    w = BlenderSaveUI()
+    w = BlenderSaveUI(engine)
+    w.show()
     app.exec_()
     print(f"datas = {w.datas}")
     return w.datas
