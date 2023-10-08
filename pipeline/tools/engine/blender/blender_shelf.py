@@ -9,7 +9,7 @@ from pipeline.tools.engine.blender import blender_engine, blender_save_ui
 def save_asset(path):
     pass
     print("blender_shelf.save_asset")
-    blender_save_ui.show_ui(blender_engine)
+    blender_save_ui.show_ui(blender_engine, scene_path=path)
 
 
 if __name__ == "__main__":

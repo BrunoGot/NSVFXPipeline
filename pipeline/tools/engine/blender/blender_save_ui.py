@@ -9,7 +9,7 @@ from pipeline import fileSystem as fs
 
 
 class BlenderSaveUI(QWidget):
-    def __init__(self, engine):
+    def __init__(self, engine, scene_path=""):
         super(BlenderSaveUI, self).__init__()
         self.engine = engine
         self.project_structure = {}
@@ -55,8 +55,77 @@ class BlenderSaveUI(QWidget):
         self.setLayout(main_layout)
         #self.show()
 
+        # normalize the path with only '/' path
+        if scene_path:
+            scene_path = scene_path.replace("\\\\", "/")
+            path = scene_path.replace(fs.asset_base_path + "/", "")
+            print("path = " + path)
+            datas = fs.get_datas_from_path(path)
+            print("in datas = " + str(datas))
+            #temporary, project structure is not correct.
+            # get rid of "AssetType" and replace with "Project", set it as first element of the datas
+            datas = self.reformat_data(datas)
+            datas_iterator = iter(datas.values())
+            item_value = next(datas_iterator, None)
+            root_item = self.tree_model.findItems(item_value)[0]
+            self.fill_form_from_datas(root_item, datas_iterator)
+            """if datas['AssetName']:
+                print(f"datas['AssetName'] = {datas['AssetType']}")
+            """    #print(f"item = {self.tree_model.findItems(datas['AssetType'])[0]}")
+
+            """if datas:
+                self.asset_name = datas['AssetName']
+                self.asset_type = datas['AssetType']
+                self.asset_task = datas['Task']
+                self.asset_subtask = datas['Subtask']
+                self.asset_version = datas['Version']"""
+
+    def reformat_data(self, datas):
+        """
+        temporar function, need to put from Name,AssetType,Task.... to AssetType,Name,Task....
+        :param datas:
+        :return:
+        """
+        formated_datas = {"AssetType": datas["AssetType"], "AssetName": datas["AssetName"], "Task": datas["Task"],
+                          "Subtask": datas["Subtask"], "Version": datas["Version"]}
+
+        return formated_datas
+
+    """def fill_form_from_datas(self, datas_iterator, item_model, depth=0):
+        item_value = next(datas_iterator, None)
+        item = item_model.findItems(item_value)[0]
+        self.tree_node_clicked(item)
+        item_value = next(datas_iterator, None)
+        for i in range(item.rowCount()):
+            c = item.child(i)
+            print(f"child = {c.text()}")
+            if c.text() == item_value:
+                self.tree_node_clicked(c)"""
+
+    def fill_form_from_datas(self, root_item, datas_iterator,):
+        self.tree_node_clicked(root_item)
+        item_value = next(datas_iterator, None)
+        for i in range(root_item.rowCount()):
+            c = root_item.child(i)
+            print(f"child = {c.text()}")
+            if c.text() == item_value:
+                self.fill_form_from_datas(c,datas_iterator)
+
+        """item_value = next(datas_iterator,None)
+        print(f"item_value = {item_value}")
+        print(f"Item = {item_model.item(0,0).text()}")
+        if item_value:
+            items = item_model.findItems(item_value)
+            if items:
+                print(f"item.rowCount() = {items[0].rowCount()}")
+                item = item_model.itemFromIndex(items[0].index())
+                self.tree_node_clicked(item)
+                print(f"item.rowCount() = {items[0].rowCount()}")
+                self.fill_form_from_datas(datas_iterator,items[0].model(),depth+1)"""
+
+
     def tree_node_clicked(self, item):
-        print(f"QStandardItem = {item.parent()}")
+        print(f"QStandardItem parent = {item.parent()}")
         # current_depth = self.get_depth_node(item)
         parent_list = [item.text()]
         parent_list += self.get_parent_list(item)
@@ -102,10 +171,10 @@ class BlenderSaveUI(QWidget):
             node.setText(e)
             path = os.path.join(parent_path, e)
             if os.path.isdir(path):
-                pass
+                #pass
                 # childrens = os.listdir(path)
                 # node.appendRows(self.add_node(path, childrens))
-            nodes.append(node)
+                nodes.append(node)
         return nodes
 
     def fill_tree_view(self, tree_model):
@@ -134,11 +203,11 @@ class BlenderSaveUI(QWidget):
         self.close()
 
 
-def show_ui(engine):
+def show_ui(engine, scene_path=""):
     app = QApplication.instance()
     if not app:
         app = QApplication(sys.argv)
-    w = BlenderSaveUI(engine)
+    w = BlenderSaveUI(engine, scene_path=scene_path)
     w.show()
     app.exec_()
     print(f"datas = {w.datas}")
