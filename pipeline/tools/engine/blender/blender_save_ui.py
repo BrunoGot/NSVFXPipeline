@@ -171,9 +171,6 @@ class BlenderSaveUI(QWidget):
             node.setText(e)
             path = os.path.join(parent_path, e)
             if os.path.isdir(path):
-                #pass
-                # childrens = os.listdir(path)
-                # node.appendRows(self.add_node(path, childrens))
                 nodes.append(node)
         return nodes
 

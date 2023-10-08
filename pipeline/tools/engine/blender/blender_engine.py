@@ -21,6 +21,7 @@ def save(asset_datas):
     if not on_save_handlers in bpy.app.handlers.save_pre:
         bpy.app.handlers.save_pre.append(on_save_handlers)
     bpy.ops.wm.save_as_mainfile(filepath=path_id)
+    blender_render.update_render_path()
     print(f"saved as {path_id} ")
 
     return path_id
