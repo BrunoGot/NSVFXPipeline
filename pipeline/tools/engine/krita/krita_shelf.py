@@ -9,7 +9,7 @@ if lib_path_pipeline not in sys.path:
 
 from pipeline.tools.engine.krita import krita_engine
 from pipeline import fileSystem as fs
-from pipeline.tools.engine.krita.gui_save_concept import SaveConceptGUI, KritaSaveUI
+from pipeline.tools.engine.krita.gui_save_concept import KritaSaveUI
 
 import sys
 """import importlib

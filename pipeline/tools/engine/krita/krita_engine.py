@@ -11,7 +11,7 @@ def save(datas):
     ###todo:should go into a new save_asset method from engine###
     if asset_datas:
         if "ext" not in asset_datas:
-            asset_datas["ext"] = "hipnc"
+            asset_datas["ext"] = "kra"
         base_path = engine.make_asset_path(asset_datas)
         path_id = os.path.join(base_path, fs.conf.asset_file_name.format(asset_datas))
         print("path_id = {}".format(path_id))
