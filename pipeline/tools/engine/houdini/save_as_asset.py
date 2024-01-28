@@ -1,7 +1,4 @@
-import os
 import importlib
-import subprocess
-import sys
 import hou
 
 from pipeline.tools.engine.houdini import houdini_engine
@@ -11,7 +8,8 @@ importlib.reload(houdini_save_ui)
 
 
 def run():
-    w = houdini_save_ui.BlenderSaveUI(houdini_engine)
+    scene_path = hou.hipFile.path()
+    w = houdini_save_ui.HoudiniSaveUI(houdini_engine, scene_path=scene_path)
     w.show()
 
 if __name__ == "__main__":
