@@ -7,56 +7,16 @@ from PyQt5.QtWidgets import QWidget, QApplication, QLineEdit, QLabel, QHBoxLayou
     QPushButton, QTreeView
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
+from pipeline.tools.GUI.save_asset_gui import SaveAssetGUI
+
 """todo: faire une classe mere save asset, faire derriver SaveConceptGUI et Save_asset de cette classe """
 
-class KritaSaveUI(DockWidget):
-    def __init__(self, engine):
-        super(KritaSaveUI, self).__init__()
+class KritaSaveUI(DockWidget, SaveAssetGUI):
+    def __init__(self, engine, scene_path=""):
+        super(KritaSaveUI, self).__init__(engine, scene_path=scene_path)
         QWidget.__init__(self)
-
-        self.engine = engine
-        self.project_structure = {}
-        self.datas = {}
-        self.base_path = r'D:/Prod/03_WORK_PIPE/01_ASSET_3D'
-        self.current_selected_path = self.base_path
-
-
-        # GUI panel
-        main_layout = QVBoxLayout()
-        info_panel = QHBoxLayout()
-        left_panel = QVBoxLayout()
-        left_panel.addLayout(self.add_pipeline_folder("AssetType"))
-        left_panel.addLayout(self.add_pipeline_folder("AssetName"))
-        left_panel.addLayout(self.add_pipeline_folder("Task"))
-        left_panel.addLayout(self.add_pipeline_folder("Subtask"))
-        left_panel.addLayout(self.add_pipeline_folder("Version"))
-        info_panel.addLayout(left_panel)
-
-        # treeview
-        self.tree_view = QTreeView()
-        self.tree_model = QStandardItemModel()
-        self.tree_model = self.fill_tree_view(self.tree_model)
-        self.tree_view.setModel(self.tree_model)
-        self.tree_view.clicked.connect(lambda index: self.tree_node_clicked(self.tree_model.itemFromIndex(index)))
-        self.tree_view.setMinimumSize(100, 300)
-        info_panel.addWidget(self.tree_view)
-        main_layout.addLayout(info_panel)
-        # comments
-        main_layout.addWidget(QLabel("comment"))
-        comment_box = QTextEdit()
-        comment_box.setMaximumHeight(75)
-        main_layout.addWidget(comment_box)
-        # btn layouts
-        button_layout = QHBoxLayout()
-        save_btn = QPushButton("Save")
-        save_btn.clicked.connect(self.on_save)
-        button_layout.addWidget(save_btn)
-        cancel_btn = QPushButton("Cancel")
-        cancel_btn.clicked.connect(self.on_close)
-        button_layout.addWidget(cancel_btn)
-        main_layout.addLayout(button_layout)
         self.window = QWidget(self)
-        self.window.setLayout(main_layout)
+        self.window.setLayout(self.main_layout)
         self.setWidget(self.window)
         self.show()
 

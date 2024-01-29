@@ -21,7 +21,7 @@ importlib.reload(SaveConceptGUI)
 #################
 tool = None
 def save_asset(path_file, mainWindow):
-    return KritaSaveUI(krita_engine)#SaveConceptGUI(mainWindow)
+    return KritaSaveUI(krita_engine, path_file)#SaveConceptGUI(mainWindow)
 
 def cleaning(out_bstring):
     out = str(out_bstring)

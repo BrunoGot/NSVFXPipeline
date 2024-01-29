@@ -8,10 +8,14 @@ if path not in sys.path:
 from pipeline import fileSystem as fs
 #################
 
-
-from PySide2.QtWidgets import QWidget, QApplication, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QTextEdit, \
-    QPushButton, QTreeView, QLayout
-from PySide2.QtGui import QStandardItem, QStandardItemModel
+try:
+    from PySide2.QtWidgets import QWidget, QApplication, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QTextEdit, \
+        QPushButton, QTreeView, QLayout
+    from PySide2.QtGui import QStandardItem, QStandardItemModel
+except Exception as e:
+    from PyQt5.QtWidgets import QWidget, QApplication, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QTextEdit, \
+        QPushButton, QTreeView
+    from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
 class SaveAssetGUI(QWidget):
     def __init__(self, engine, scene_path=""):
@@ -23,7 +27,7 @@ class SaveAssetGUI(QWidget):
         self.current_selected_path = self.base_path
 
         # GUI panel
-        main_layout = QVBoxLayout()
+        self.main_layout = QVBoxLayout()
         info_panel = QHBoxLayout()
         left_panel = QVBoxLayout()
         left_panel.addLayout(self.add_pipeline_folder("AssetType"))
@@ -41,12 +45,12 @@ class SaveAssetGUI(QWidget):
         self.tree_view.clicked.connect(lambda index: self.tree_node_clicked(self.tree_model.itemFromIndex(index)))
         self.tree_view.setMinimumSize(100, 300)
         info_panel.addWidget(self.tree_view)
-        main_layout.addLayout(info_panel)
+        self.main_layout.addLayout(info_panel)
         # comments
-        main_layout.addWidget(QLabel("comment"))
+        self.main_layout.addWidget(QLabel("comment"))
         comment_box = QTextEdit()
         comment_box.setMaximumHeight(75)
-        main_layout.addWidget(comment_box)
+        self.main_layout.addWidget(comment_box)
         # btn layouts
         button_layout = QHBoxLayout()
         save_btn = QPushButton("Save")
@@ -55,8 +59,8 @@ class SaveAssetGUI(QWidget):
         cancel_btn = QPushButton("Cancel")
         cancel_btn.clicked.connect(self.on_close)
         button_layout.addWidget(cancel_btn)
-        main_layout.addLayout(button_layout)
-        self.setLayout(main_layout)
+        self.main_layout.addLayout(button_layout)
+
         # self.show()
 
         # normalize the path with only '/' path
