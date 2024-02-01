@@ -18,6 +18,7 @@ except Exception as e:
     from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
 class SaveAssetGUI(QWidget):
+    """main class for ui for all dccs"""
     def __init__(self, engine, scene_path=""):
         super(SaveAssetGUI, self).__init__()
         self.engine = engine
@@ -78,16 +79,6 @@ class SaveAssetGUI(QWidget):
                 item_value = next(datas_iterator, None)
                 root_item = self.tree_model.findItems(item_value)[0]
                 self.fill_form_from_datas(root_item, datas_iterator)
-            """if datas['AssetName']:
-                print(f"datas['AssetName'] = {datas['AssetType']}")
-            """  # print(f"item = {self.tree_model.findItems(datas['AssetType'])[0]}")
-
-            """if datas:
-                self.asset_name = datas['AssetName']
-                self.asset_type = datas['AssetType']
-                self.asset_task = datas['Task']
-                self.asset_subtask = datas['Subtask']
-                self.asset_version = datas['Version']"""
 
     def reformat_data(self, datas):
         """
@@ -100,17 +91,6 @@ class SaveAssetGUI(QWidget):
 
         return formated_datas
 
-    """def fill_form_from_datas(self, datas_iterator, item_model, depth=0):
-        item_value = next(datas_iterator, None)
-        item = item_model.findItems(item_value)[0]
-        self.tree_node_clicked(item)
-        item_value = next(datas_iterator, None)
-        for i in range(item.rowCount()):
-            c = item.child(i)
-            print(f"child = {c.text()}")
-            if c.text() == item_value:
-                self.tree_node_clicked(c)"""
-
     def fill_form_from_datas(self, root_item, datas_iterator, ):
         self.tree_node_clicked(root_item)
         item_value = next(datas_iterator, None)
@@ -120,17 +100,6 @@ class SaveAssetGUI(QWidget):
             if c.text() == item_value:
                 self.fill_form_from_datas(c, datas_iterator)
 
-        """item_value = next(datas_iterator,None)
-        print(f"item_value = {item_value}")
-        print(f"Item = {item_model.item(0,0).text()}")
-        if item_value:
-            items = item_model.findItems(item_value)
-            if items:
-                print(f"item.rowCount() = {items[0].rowCount()}")
-                item = item_model.itemFromIndex(items[0].index())
-                self.tree_node_clicked(item)
-                print(f"item.rowCount() = {items[0].rowCount()}")
-                self.fill_form_from_datas(datas_iterator,items[0].model(),depth+1)"""
 
     def tree_node_clicked(self, item):
         print(f"QStandardItem parent = {item.parent()}")
