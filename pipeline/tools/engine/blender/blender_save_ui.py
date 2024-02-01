@@ -1,11 +1,6 @@
-import os
 import sys
 
-from PySide2.QtWidgets import QWidget, QApplication, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QTextEdit, \
-    QPushButton, QTreeView, QLayout
-from PySide2.QtGui import QStandardItem, QStandardItemModel
-
-from pipeline import fileSystem as fs
+from PySide2.QtWidgets import QApplication
 
 from pipeline.tools.GUI.save_asset_gui import SaveAssetGUI
 class BlenderSaveUI(SaveAssetGUI):
