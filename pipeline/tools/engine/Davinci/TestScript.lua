@@ -7,7 +7,7 @@ MainWindow = disp:AddWindow(
         WindowTitle = "Import and Append",
         Geometry = {950, 400, 300, 150},
         ui:VGroup{
-            ID = "root",
+        ID = "root",
             ui:HGroup{
                 ui:LineEdit{
                     ID = "FilePath",
@@ -20,7 +20,17 @@ MainWindow = disp:AddWindow(
                     Text = "Browse",
                     Weight = 0.25
                 }
-            }
+            },
+            ui:HGroup{
+                ui:Label{ ID = "Bin", Text = "Bin for folder", weight = 0.25},
+                ui:ComboBox{ ID = "Bins", weight = 0.75}
+            },
+            ui:Label{weight = 0, FrameStyle = 4},
+            ui:HGroup{
+                ui:Label{ID = "TimelineName", Text = "Timeline Name", weight = 0.25},
+                ui:LineEdit{ID = "TMLName", PlaceholderText = "My Cool Timeline", weight = 0.75}
+            },
+            ui:Button{ ID = "Run", Text = "Run Import"}
         }
     }
 )

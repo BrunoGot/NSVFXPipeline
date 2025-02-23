@@ -94,6 +94,7 @@ todo :
     <memberTool name="NS_pull_cache"/>
     <memberTool name="NS_save_as_asset"/>
     <memberTool name="NS_set_project"/>
+    <memberTool name="NS_detect_zombies"/>
     <memberTool name="generate_flipbook"/>
     <memberTool name="save_version"/>
   </toolshelf>
@@ -118,6 +119,13 @@ asset.run()
 reload(project)
 project.set_project()
 
+]]></script>
+  </tool>
+   <tool name="NS_detect_zombies" label="Detect Zombies" icon="hicon:/SVGIcons.index?BUTTONS_environment.svg">
+    <script scriptType="python"><![CDATA[from houdini.Validators import before_render as bf
+    from importlib import reload
+    reload(bf)
+    bf.check_zombies_parameters()
 ]]></script>
   </tool>
 

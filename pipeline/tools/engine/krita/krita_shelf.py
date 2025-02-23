@@ -12,9 +12,9 @@ from pipeline import fileSystem as fs
 from pipeline.tools.engine.krita.krita_save_ui import KritaSaveUI
 
 import sys
-"""import importlib
-importlib.reload(SaveConceptGUI)
-"""
+import importlib
+importlib.reload(krita_engine)
+
 ###############
 
 
@@ -22,6 +22,9 @@ importlib.reload(SaveConceptGUI)
 tool = None
 def save_asset(path_file, mainWindow):
     return KritaSaveUI(krita_engine, path_file)#SaveConceptGUI(mainWindow)
+
+def export():
+    krita_engine.export_image()
 
 def cleaning(out_bstring):
     out = str(out_bstring)

@@ -88,6 +88,10 @@ class Config():
         return self.__templates["Textures"]
 
     @property
+    def publish_path(self):
+        return self.__templates["Publish"]
+
+    @property
     def name(self):
         return self.__name
 

@@ -1,19 +1,26 @@
 import os
+from pathlib import Path
 import hou
+
 from pipeline import framework_config as config
 
 
-def load_shelves():
-    custom_shelves_dir = config.get_framework_path()+os.sep+config.get_houdini_path() + "/houdini/shelves"
+def load_shelf():
+    shelf_path = r"/houdini/settings/shelves/"
+    pipeline_shelf_path = config.get_framework_path()+os.path.sep+config.get_houdini_path()+os.path.sep+shelf_path+os.path.sep+"NSPipeline.shelf"
+    pipeline_shelfSet = config.get_framework_path()+os.path.sep+config.get_houdini_path()+os.path.sep+shelf_path+os.path.sep+"NSPipelineShelfSet.shelf"
+    print(f"load shelves at path : {pipeline_shelf_path}")
+    hou.shelves.loadFile(pipeline_shelf_path)
+    hou.shelves.loadFile(pipeline_shelfSet)
 
-    current_shelves = hou.shelves.shelfSets()
-    custom_shelves_dir = custom_shelves_dir.replace('/', os.sep)
 
-    print("list des shelves : "+str(current_shelves))
-    print("load shelf in "+custom_shelves_dir)
-    shelves = os.listdir(custom_shelves_dir)
-    for shelf in shelves:
-        if ".shelf" in shelf:
-            custom_shelf_path = custom_shelves_dir+os.sep+shelf
-            hou.shelves.loadFile(custom_shelf_path)
-    print("liste des custom shelves : "+str(shelf))
+def activate_shelf(shelf_name):
+    """given the shelf name, access the current fesktop, add the shelf name to the shelf list and update it"""
+    current_shelves_sets = [s for s in hou.ui.curDesktop().shelfDock().shelfSets()]
+    shelf_set = current_shelves_sets[0]
+    shelves = [s for s in shelf_set.shelves()]
+
+    shelf_to_load = hou.shelves.shelves()[shelf_name]
+    shelves.append(shelf_to_load)
+
+    shelf_set.setShelves(shelves)

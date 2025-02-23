@@ -12,10 +12,22 @@ r"\CreteParticles\AnimA\001\Hadra2023__CreteParticles__AnimA_001.blend",
          r"D:\Prod\03_WORK_PIPE\01_ASSET_3D\Chromatribe\Zurich_Christmas_2023\Petals\AllA_Shade\001\Zurich_Christmas_2023__Petals__AllA_Shade_001.blend"
 """
 
-blender_exe = r"C:\Program Files\Blender Foundation\Blender 3.1\blender"
-project = r"D:\Prod\03_WORK_PIPE\01_ASSET_3D\Chromatribe\Zurich_Christmas_2023"
-files = [r"Petals\AllA_Shade\001\Zurich_Christmas_2023__Petals__AllA_Shade_001.blend",
-         r"Petals\MiddleA_Shade\001\Zurich_Christmas_2023__Petals__MiddleA_Shade_001.blend"
+blender_exe = r"C:\Program Files\Blender Foundation\Blender 4.1\blender"
+# project = r"D:\Prod\03_WORK_PIPE\01_ASSET_3D\Chromatribe\Zurich_Christmas_2023"
+# \HeadSmokeRender\SlowLeftRightLights\003\Render
+# last renders
+# r"PureSmokeHead\B\002\DemonSkullLoopPack__PureSmokeHead__B_002.blend",
+# r"PureSmokeHead\C\001\DemonSkullLoopPack__PureSmokeHead__C_001.blend",
+# r"PureSmokeHead\A\001\DemonSkullLoopPack__PureSmokeHead__A_001.blend",
+# r"HeadSmokeRender\SlowLeftRightLights\003\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLights_003.blend",
+# r"HeadSmokeRender\SlowLeftRightSideCamera\001\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightSideCamera_001.blend"
+# r"HeadSmokeRender\SlowLeftRightLightsB\002\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLightsB_002.blend"
+# r"HeadSmokeRender\SlowLeftRightLightsC\001\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLightsC_001.blend",
+#          r"HeadSmokeRender\SlowLeftRightLightsD\001\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLightsD_001.blend"
+project = r"D:\Prod\03_WORK_PIPE\01_ASSET_3D\MotionDesign\DemonSkullLoopPack"
+
+files = [r"ShotHeadSmoke4Beat\A_Shading\001\DemonSkullLoopPack__ShotHeadSmoke4Beat__A_Shading_001.blend",
+         r"ShotHeadSmoke4Beat\B_Shading\001\DemonSkullLoopPack__ShotHeadSmoke4Beat__B_Shading_001.blend",
          ]
 
 files_to_render = []

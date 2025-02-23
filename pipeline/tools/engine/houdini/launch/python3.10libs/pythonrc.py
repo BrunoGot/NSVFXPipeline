@@ -1,1 +1,2 @@
-print("launching python rc")
+# import hou
+print("#####launching python rc#####")

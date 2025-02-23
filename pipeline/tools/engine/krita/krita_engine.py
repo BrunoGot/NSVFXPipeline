@@ -1,7 +1,7 @@
 import os
+from pathlib import Path
 
 from krita import *
-
 
 from pipeline.tools.engine import engine
 from pipeline import fileSystem as fs
@@ -29,3 +29,36 @@ def save(datas):
         else:
             doc.saveAs(path_id)
     return path_id
+
+def export_image(type="png"):
+    """
+    used by ns_pipeline.py for Krita in %appdata%/krita/pyktita
+    :param type:
+    :return:
+    """
+
+    #will have to go in a pref file
+    export_options = {
+        "compression": 9,
+        "quality": 100
+    }
+    document = Krita.instance().activeDocument()
+    if document:
+        path = document.fileName()
+        if path:
+            #set path and file format
+            # out_folder_path = fs.get_publish_path(path)
+            out_folder_path = fs.asset_base_path / Path(fs.get_publish_path(path))
+            if not os.path.exists(str(out_folder_path)):
+                os.makedirs(str(out_folder_path), exist_ok=True)
+            base_name = os.path.basename(path) #.replace('.kra','.png')
+            # out_path = os.path.join(out_folder_path,base_name)
+
+            out_path = out_folder_path / base_name
+            out_path = out_path.with_suffix('.png')
+            out_path = out_path.as_posix()
+
+            #export
+            info_obj = krita.InfoObject()
+            info_obj.setProperties(export_options)
+            document.exportImage(out_path,info_obj)

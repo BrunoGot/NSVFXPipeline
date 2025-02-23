@@ -31,7 +31,7 @@ print("HOUDINI_GEOMETRY_PATH = "+ "$HIP/cache")
 #print("HOUDINI_TOOLBAR_PATH = "+ hou.getenv("HOUDINI_TOOLBAR_PATH"))
 
 #set shelves :
-shelf_manager.load_shelves()
+shelf_manager.load_shelf()
 
 #import HDAs
 hda_folder = frameworkConfig.get_HDAs_folder()
