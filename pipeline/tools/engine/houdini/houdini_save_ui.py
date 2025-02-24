@@ -1,15 +1,12 @@
-import os
+import importlib
 import sys
 
-from PySide2.QtWidgets import QWidget, QApplication, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QTextEdit, \
-    QPushButton, QTreeView, QLayout
-from PySide2.QtGui import QStandardItem, QStandardItemModel
+from PySide2.QtWidgets import QWidget, QApplication
+from pipeline.tools.GUI import save_asset_gui as base_gui
+importlib.reload(base_gui)
 
-from pipeline import fileSystem as fs
 
-from pipeline.tools.GUI.save_asset_gui import SaveAssetGUI
-
-class HoudiniSaveUI(SaveAssetGUI):
+class HoudiniSaveUI(base_gui.SaveAssetGUI):
     def __init__(self, engine, scene_path=""):
         super(HoudiniSaveUI, self).__init__(engine, scene_path=scene_path)
         self.setLayout(self.main_layout)

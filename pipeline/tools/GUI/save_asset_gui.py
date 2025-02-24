@@ -6,6 +6,8 @@ path = r'D:\Documents\Code\Python\NSVFXPipeline'
 if path not in sys.path:
     sys.path.append(path)
 from pipeline import fileSystem as fs
+from pipeline.tools.engine import engine #this is temporary to get the asset path but should be replaced by fs
+
 #################
 
 
@@ -18,8 +20,10 @@ except Exception as e:
         QPushButton, QTreeView
     from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
+
 class SaveAssetGUI(QWidget):
     """main class for ui for all dccs"""
+
     def __init__(self, engine, scene_path=""):
         super(SaveAssetGUI, self).__init__()
         self.engine = engine
@@ -50,9 +54,9 @@ class SaveAssetGUI(QWidget):
         self.main_layout.addLayout(info_panel)
         # comments
         self.main_layout.addWidget(QLabel("comment"))
-        comment_box = QTextEdit()
-        comment_box.setMaximumHeight(75)
-        self.main_layout.addWidget(comment_box)
+        self.comment_box = QTextEdit()
+        self.comment_box.setMaximumHeight(75)
+        self.main_layout.addWidget(self.comment_box)
         # btn layouts
         button_layout = QHBoxLayout()
         save_btn = QPushButton("Save")
@@ -101,24 +105,32 @@ class SaveAssetGUI(QWidget):
             if c.text() == item_value:
                 self.fill_form_from_datas(c, datas_iterator)
 
-
     def tree_node_clicked(self, item):
         print(f"QStandardItem parent = {item.parent()}")
         # current_depth = self.get_depth_node(item)
         parent_list = [item.text()]
         parent_list += self.get_parent_list(item)
-        path = os.path.join(*reversed(parent_list))
-        print(f"path = {path}")
-        self.current_selected_path = os.path.join(self.base_path, path)
+        asset_path = os.path.join(*reversed(parent_list))
+        print(f"path = {asset_path}")
+        self.current_selected_path = os.path.join(self.base_path, asset_path)
         print(f"new_node_path = {self.current_selected_path}")
         if os.path.isdir(self.current_selected_path):
             # self.current_selected_path = new_node_path
             nodes = self.add_node(self.current_selected_path, os.listdir(self.current_selected_path))
             item.appendRows(nodes)
+            self.refresh_comment_box(self.current_selected_path)
         self.tree_view.viewport().update()
         self.tree_view.setExpanded(self.tree_model.indexFromItem(item), True)
 
         self.fill_asset_form(parent_list)
+
+    def refresh_comment_box(self, asset_path):
+        """update the content of the comment box with the local comment file at the path location"""
+        self.comment_box.clear()
+        comment_path = os.path.join(asset_path, "comment.txt")
+        if os.path.exists(comment_path):
+            f = open(comment_path, "r")
+            self.comment_box.setText(f.read())
 
     def fill_asset_form(self, parent_list):
         i = 1
@@ -171,8 +183,18 @@ class SaveAssetGUI(QWidget):
     def on_save(self):
         for i, j in self.project_structure.items():
             self.datas[i] = j.text()
+        self.save_comment()
         self.engine.save(self.datas)
         self.close()
+
+    def save_comment(self):
+        """write down the comment, shall it be passed in the datas to the engine ?"""
+        comment = self.comment_box.toPlainText()
+        asset_path = engine.make_asset_path(self.datas)
+        f = open(os.path.join(asset_path, "comment.txt"),"w")
+        f.write(comment)
+        f.close()
+        print(f"saved {comment} at path {asset_path}")
 
     def on_close(self):
         self.close()
