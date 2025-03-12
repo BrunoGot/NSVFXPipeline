@@ -8,7 +8,7 @@ FileFolder : "{AssetType}/{AssetName}/{Task}/{Subtask}/$Version/" #path to the f
 AssetFilePath : "{AssetType}/{AssetName}/{Task}/{Subtask}/$Version/$AssetFileName" #path to the asset file
 Workspace : "$FileFolder"
 Render : "$Workspace/Render/{AssetName}__{Task}__{Subtask}_$Version"
-Cache : "$Workspace/Cache"
+Caches : "{AssetType}/{AssetName}/{Task}/{Subtask}/Cache"
 Textures : "$Workspace/Textures"
 Flip : "$Workspace/flip"
 Publish : "{AssetType}/{AssetName}/{Task}/{Subtask}/Out"

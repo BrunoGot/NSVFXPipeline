@@ -24,11 +24,15 @@ blender_exe = r"C:\Program Files\Blender Foundation\Blender 4.1\blender"
 # r"HeadSmokeRender\SlowLeftRightLightsB\002\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLightsB_002.blend"
 # r"HeadSmokeRender\SlowLeftRightLightsC\001\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLightsC_001.blend",
 #          r"HeadSmokeRender\SlowLeftRightLightsD\001\DemonSkullLoopPack__HeadSmokeRender__SlowLeftRightLightsD_001.blend"
-project = r"D:\Prod\03_WORK_PIPE\01_ASSET_3D\MotionDesign\DemonSkullLoopPack"
+project = r"D:\Prod\03_WORK_PIPE\01_ASSET_3D\MotionDesign\SessionBulleATruc"
 
-files = [r"ShotHeadSmoke4Beat\A_Shading\001\DemonSkullLoopPack__ShotHeadSmoke4Beat__A_Shading_001.blend",
-         r"ShotHeadSmoke4Beat\B_Shading\001\DemonSkullLoopPack__ShotHeadSmoke4Beat__B_Shading_001.blend",
-         ]
+
+# files = [r"BorderBreaks\ShadingA\008\SessionBulleATruc__BorderBreaks__ShadingA_008.blend", r"BorderBreaks\ShadingCubesA\002\SessionBulleATruc__BorderBreaks__ShadingCubesA_002.blend"]
+
+files = [r"BorderBreaks\ShadingA\008\SessionBulleATruc__BorderBreaks__ShadingA_008.blend"]
+
+specific_frames = []
+specific_frames = [29, 39,41,56,101,108,194,216,306,323,491,553,571]
 
 files_to_render = []
 #check if all files exists
@@ -40,9 +44,16 @@ for f in files:
         raise Exception(f"{blend_file} doesn't exist")
     print(f"{f} is ok to render")
     files_to_render.append(blend_file)
+
 #Start renders
 for f in  files_to_render:
     print(f"rendering {f}")
-    subprocess.run([blender_exe, "-b",f , "-a"], shell=True)
+    if specific_frames:
+        specific_frames = [str(f) for f in specific_frames] #convert values from int to string
+        print(f"rendering specific frames {', '.join(specific_frames)}")
+        for frame in specific_frames:
+            subprocess.run([blender_exe, "-b", f, "-f", frame], shell=True)
+    else:
+        subprocess.run([blender_exe, "-b",f , "-a"], shell=True)
     print(f"render {f} done")
 print("all renders done")

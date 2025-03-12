@@ -4,6 +4,7 @@ import hou
 from pipeline.tools.engine.houdini import houdini_engine
 from pipeline.tools.engine.houdini import houdini_save_ui
 importlib.reload(houdini_save_ui)
+importlib.reload(houdini_engine)
 
 
 def run():

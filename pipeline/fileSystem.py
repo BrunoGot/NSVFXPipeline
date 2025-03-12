@@ -153,6 +153,19 @@ def get_datas_from_path(path):
         datas = None
     return datas
 
+
+def get_cache_folder(datas):
+    """
+    return the path to the cache folder according to the input datas
+    :param datas:  {'AssetName': 'SessionBulleATruc', 'AssetType': 'MotionDesign', 'Subtask': 'HoudiniBFull', 'Task': 'HexagonParticles', 'Version': '001', 'ext': 'hipnc'}
+
+    :return:
+    """
+    cache_path = conf.caches_path.format(datas)
+    cache_path = os.path.join(asset_base_path,cache_path)
+    return cache_path
+
+
 def _isolate_asset_path(path):
     """
     get a file path from the saved scene and isolate the pipeline asset path
