@@ -1,38 +1,53 @@
 import os
 
 from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QMainWindow,QVBoxLayout,QHBoxLayout, QWidget, QPushButton, QListWidget,\
-    QListWidgetItem, QLabel
+from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QListWidget, \
+    QListWidgetItem, QLabel, QTextEdit
 
 
 from pipeline.tools.Standalone.RenderQueueManager.controller.render_queue import RenderQueue
 
-class JobWidget(QWidget ):
+
+class JobWidget(QWidget):
     on_remove_job = Signal(str)
 
     def __init__(self, job):
         super(JobWidget, self).__init__()
         self.job = job
         main_layout = QHBoxLayout()
-        #id label
+        # id label
         main_layout.addWidget(QLabel(self.job.job_id))
-        #scene path button
+
+        # scene path button
         scene_path_btn = QPushButton(self.job.scene_name)
-        scene_path_btn.clicked.connect(self.open_folder)
+        scene_path_btn.clicked.connect(lambda: self.open_folder(self.job.scene_path))
         main_layout.addWidget(scene_path_btn)
-        #remove button
-        self.remove_job_btn = QPushButton("X")
-        self.remove_job_btn.clicked.connect(self.remove_job)
-        main_layout.addWidget(self.remove_job_btn)
+
+        # output folder path
+        self._out_path_btn = QPushButton("Out Folder")
+        self._out_path_btn.clicked.connect(lambda: self.open_folder(self.job.out_path))
+        if not os.path.exists(os.path.dirname(self.job.out_path)):
+            self._out_path_btn.setEnabled(False)
+        main_layout.addWidget(self._out_path_btn)
+
+        #status button
+        self._status_btn = QPushButton(self.job.status.name)
+        main_layout.addWidget(self._status_btn)
+
+        # remove button
+        self._remove_job_btn = QPushButton("X")
+        self._remove_job_btn.clicked.connect(self.remove_job)
+        main_layout.addWidget(self._remove_job_btn)
 
         self.setLayout(main_layout)
 
-    def open_folder(self):
-        os.startfile(os.path.dirname(self.job.scene_path))
+    def open_folder(self, path):
+        os.startfile(os.path.dirname(path)) #this wont work for out_put folder when the subfolder bug will be fixed
 
     def remove_job(self):
         print(self.job.job_id)
         self.on_remove_job.emit(self.job.job_id)
+
 
 class RenderQueueUI(QMainWindow):
 
@@ -40,6 +55,7 @@ class RenderQueueUI(QMainWindow):
         super(RenderQueueUI, self).__init__()
         self.render_manager = RenderQueue()
         self.render_manager.on_update_view.connect(self.update_view)
+        self.render_manager.on_steam_updated.connect(self.update_output_stream_view)
         self.init_UI()
 
     def init_UI(self):
@@ -60,8 +76,10 @@ class RenderQueueUI(QMainWindow):
         self.execute_button.clicked.connect(self.render_manager.execute)
         self.v_layout.addWidget(self.execute_button)
 
-        #row
+        self.job_stream_output = QTextEdit()
+        self.v_layout.addWidget(self.job_stream_output)
 
+        # row
 
         main_widget.setLayout(self.v_layout)
         self.setCentralWidget(main_widget)
@@ -80,4 +98,9 @@ class RenderQueueUI(QMainWindow):
         self.render_manager.refresh_job_list()
         self.list_widget.clear()
         self._create_job_list_widget()
-        print("update viewww")
+
+    def update_output_stream_view(self, std, err):
+
+        self.job_stream_output.append(std)
+        if err:
+            self.job_stream_output.append(f'<span style="color: red;">{err}</span>')

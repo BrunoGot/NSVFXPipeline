@@ -1,8 +1,34 @@
+from enum import Enum
 import os
 from typing import Optional
 
+
+class Status(Enum):
+    """
+    Enum used to describe the status of a job
+
+    Attributes:
+        READY (int): The job didn't stated yet but is ready to process
+        RUNNING (int): The job is currently rendering frames
+        PAUSED (int): The job has stated but have been stopped
+        SUCCESS (int): The job has started and finished successfully. you can archive it
+        FAILED (int): The job stated but an error happened. The job didn't finished successfully.
+    """
+    READY = 1
+    RUNNING = 2
+    PAUSED = 3
+    SUCCESS = 4
+    FAILED = 5
+
+    @classmethod
+    def _missing_(cls, value):
+        # Return the default value if the value doesn't match any member
+        return cls.READY
+
+
 class RenderJob():
     def __init__(self, job_id: str, queue_number: int, scene_path: str, out_path: str,
+                 status: Optional[Status] = Status.READY,
                  render_config: Optional[dict] = None,
                  asset_datas: Optional[dict] = None):
         """
@@ -14,6 +40,7 @@ class RenderJob():
             scene_path (str): path of the scene to render
             out_path (str): output path of the job to write in
             render_config (dict[str, object]): Dictionary containing parameters about the render itself.
+            status (Status): Curent status of the job, see Status class for the different value
             Can be used for overriding:
                 - "pixel_size" (tuple[int,int]): size X and Y of the frame to render in pixel
                 - "frame_sequence" (tuple[int,int,int]): first frame, last frame and frame step to render
@@ -26,45 +53,51 @@ class RenderJob():
 
         if asset_datas is None:
             asset_datas = {}
-        self.__job_id = job_id
-        self.__queue_number = queue_number
-        self.__scene_path = scene_path
-        self.__out_path = out_path
-        self.__render_config = render_config
-        self.__asset_datas = asset_datas
+        self._job_id = job_id
+        self._queue_number = queue_number
+        self._scene_path = scene_path
+        self._out_path = out_path
+        self._status = status
+        self._render_config = render_config
+        self._asset_datas = asset_datas
 
     @property
     def job_id(self):
-        return self.__job_id
+        return self._job_id
 
     @property
     def queue_nb(self):
-        return self.__queue_number
+        return self._queue_number
 
     @property
     def scene_path(self):
-        return self.__scene_path
+        return self._scene_path
 
     @property
     def out_path(self):
-        return self.__out_path
+        return self._out_path
+
+    @property
+    def status(self):
+        return self._status
 
     @property
     def render_config(self):
-        return self.__render_config
+        return self._render_config
 
     @property
     def asset_datas(self):
-        return self.__asset_datas
+        return self._asset_datas
 
     @property
     def scene_name(self):
-        return os.path.basename(self.__scene_path)
+        return os.path.basename(self._scene_path)
 
     def to_dict(self):
         """Serialize the Job to be recorded in a JSON"""
-        return {"job_id": self.__job_id, "queue_number": self.__queue_number, "scene_path": self.__scene_path,
-                "out_path": self.__out_path, "render_config": self.__render_config, "asset_datas": self.__asset_datas}
+        return {"job_id": self._job_id, "queue_number": self._queue_number, "scene_path": self._scene_path,
+                "out_path": self._out_path, "status": self._status, "render_config": self._render_config,
+                "asset_datas": self._asset_datas}
 
     @classmethod
     def from_dic(cls, datas: dict):
@@ -82,5 +115,9 @@ class RenderJob():
         returns:
             RenderJob: a brand new RenderJob ready to go :)
         """
-        return cls(datas["job_id"], datas["queue_number"], datas["scene_path"], datas["out_path"],
-                   datas["render_config"], datas["asset_datas"])
+        parsed_status = datas.get("render_config", "READY")
+        # smelly but got no time. problem is when the json is corrupet and status exist but is "null"
+        if not parsed_status:
+            parsed_status = "READY"
+        return cls(datas.get("job_id"), datas.get("queue_number"), datas.get("scene_path"), datas.get("out_path"),
+                   Status[parsed_status], datas.get("render_config"), datas.get("asset_datas"))

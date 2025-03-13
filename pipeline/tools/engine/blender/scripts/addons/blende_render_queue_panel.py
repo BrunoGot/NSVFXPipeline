@@ -53,6 +53,7 @@ class CreateBlenderJob(bpy.types.Operator):
         output_path = bpy.context.scene.render.filepath
 
         render_manager.register_job(scene_path, output_path)
+        print("woooorks")
         return {'FINISHED'}
 
 
