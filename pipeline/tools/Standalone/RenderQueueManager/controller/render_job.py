@@ -96,7 +96,7 @@ class RenderJob():
     def to_dict(self):
         """Serialize the Job to be recorded in a JSON"""
         return {"job_id": self._job_id, "queue_number": self._queue_number, "scene_path": self._scene_path,
-                "out_path": self._out_path, "status": self._status, "render_config": self._render_config,
+                "out_path": self._out_path, "status": self._status.name, "render_config": self._render_config,
                 "asset_datas": self._asset_datas}
 
     @classmethod

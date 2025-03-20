@@ -52,7 +52,7 @@ class RenderQueue(QObject):
 
         job_id = self.generate_id()
         queue_nb = len(self._jobs)
-        job = render_job.RenderJob(job_id, queue_nb, scene_path, out_path, render_config, asset_datas)
+        job = render_job.RenderJob(job_id, queue_nb, scene_path, out_path,render_job.Status.READY, render_config, asset_datas)
         self._jobs.append(job)
         self.update_json_list()
 
