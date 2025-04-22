@@ -40,11 +40,11 @@ class RenderJob():
             scene_path (str): path of the scene to render
             out_path (str): output path of the job to write in
             render_config (dict[str, object]): Dictionary containing parameters about the render itself.
-            status (Status): Curent status of the job, see Status class for the different value
-            Can be used for overriding:
-                - "pixel_size" (tuple[int,int]): size X and Y of the frame to render in pixel
+                - "pixel_size" (tuple[int,int,int]): size X, Y and scale of the frame to render in pixel
                 - "frame_sequence" (tuple[int,int,int]): first frame, last frame and frame step to render
                 - "file_format" (str): output file formet, "png","jpg","mov"
+                - "frame_rate" (int): framerate of the scene 24,30,60 fps
+            status (Status): Curent status of the job, see Status class for the different value
             asset_datas (dict[str,str]): Dictionary containing information about the asset.
             The keys values is depending of the Config file the user is setting up.
                 - Key (str): Asset node like "Project", "Asset_name", "Task", "Subtask", "Version"
@@ -82,16 +82,23 @@ class RenderJob():
         return self._status
 
     @property
-    def render_config(self):
-        return self._render_config
-
-    @property
     def asset_datas(self):
         return self._asset_datas
 
     @property
     def scene_name(self):
         return os.path.basename(self._scene_path)
+
+    @property
+    def render_settings(self):
+        return self._render_config
+
+    def set_render_settings(self, **kwargs):
+        pixel_size = kwargs.get("pixel_size", [1920,1080,50])
+        frame_sequence = kwargs.get("frame_sequence", [1,240,2])
+        file_format = kwargs.get("file_format", "png")
+        frame_rate = kwargs.get("framerate",30)
+        self._render_config = {"pixel_size":pixel_size,"frame_sequence":frame_sequence, "file_format":file_format, frame_rate:"frame_rate" }
 
     def to_dict(self):
         """Serialize the Job to be recorded in a JSON"""

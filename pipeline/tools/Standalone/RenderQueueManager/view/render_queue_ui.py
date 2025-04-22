@@ -6,6 +6,7 @@ from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QP
 
 
 from pipeline.tools.Standalone.RenderQueueManager.controller.render_queue import RenderQueue
+from pipeline.tools.Standalone.RenderQueueManager.view.render_settings_ui import RenderSettingsUI
 
 
 class JobWidget(QWidget):
@@ -34,12 +35,26 @@ class JobWidget(QWidget):
         self._status_btn = QPushButton(self.job.status.name)
         main_layout.addWidget(self._status_btn)
 
+        # settings button
+        self._setting_btn = QPushButton("S")
+        self._setting_btn.clicked.connect(self.on_render_settings_clicked)
+        main_layout.addWidget(self._setting_btn)
+
+        # progress bar
+        # viewer
         # remove button
         self._remove_job_btn = QPushButton("X")
         self._remove_job_btn.clicked.connect(self.remove_job)
         main_layout.addWidget(self._remove_job_btn)
 
         self.setLayout(main_layout)
+        self.render_settings_view = RenderSettingsUI(self.job)
+
+    def on_render_settings_clicked(self):
+        #display view with job settings
+        self.render_settings_view.show()
+        print("display render settings view")
+
 
     def open_folder(self, path):
         os.startfile(os.path.dirname(path)) #this wont work for out_put folder when the subfolder bug will be fixed
@@ -85,6 +100,10 @@ class RenderQueueUI(QMainWindow):
         self.setCentralWidget(main_widget)
 
     def _create_job_list_widget(self):
+        """
+        for all jobs in the render_manager model create the associated UI Widget
+        :return:
+        """
         for job in self.render_manager.jobs:
             id = job.job_id
             job_widget = JobWidget(job)
