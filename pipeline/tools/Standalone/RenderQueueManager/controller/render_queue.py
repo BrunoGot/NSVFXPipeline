@@ -120,6 +120,10 @@ class RenderQueue(QObject):
 
     def run_job(self, index):
         job = self._jobs[index]
+        arguments = ["-b", job.scene_path, "-a"]
+        if job.render_settings:
+            frame_sequence = job.render_settings["frame_sequence"]
+            arguments = ["-b", job.scene_path,"-s",frame_sequence[0],"-e",frame_sequence[1],  "-a"]
         self._render_process.start(self._blender_exe, ["-b", job.scene_path, "-a"])
 
     def execute(self):

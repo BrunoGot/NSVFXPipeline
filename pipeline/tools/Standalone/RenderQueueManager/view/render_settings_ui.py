@@ -3,14 +3,15 @@ import os.path
 
 from PySide2.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QListWidget, \
     QListWidgetItem, QLabel, QTextEdit, QFormLayout, QLineEdit, QSpinBox, QComboBox
+from libpasteurize.fixes import fix_kwargs
 
 
 class RenderSettingsUI(QWidget):
     def __init__(self, job):
         super(RenderSettingsUI, self).__init__()
-        #attributes & config
+        # attributes & config
         self.job = job
-        self.preset_folder = os.path.join(os.path.abspath("."),"model","presets")
+        self.preset_folder = os.path.join(os.path.abspath("."), "model", "presets")
         # f"..\\model\\Presets"
         # ui
         self.main_layout = QVBoxLayout()
@@ -21,13 +22,13 @@ class RenderSettingsUI(QWidget):
         self.main_layout.addWidget(title_label)
         # Form
         self.start_frame = QSpinBox()
-        self.start_frame.setRange(0,10000)
+        self.start_frame.setRange(0, 10000)
         self.end_frame = QSpinBox()
-        self.end_frame.setRange(0,10000)
+        self.end_frame.setRange(0, 10000)
         self.step_frame = QSpinBox()
-        self.step_frame.setRange(0,10000)
+        self.step_frame.setRange(0, 10000)
         self.scale_resolution = QSpinBox()
-        self.scale_resolution.setRange(0,10000)
+        self.scale_resolution.setRange(0, 10000)
         self.frame_rate = QSpinBox()
         self.presets = QComboBox()
         self.presets.addItems(["Custom", "Full", "Preview"])
@@ -75,7 +76,8 @@ class RenderSettingsUI(QWidget):
                                       frame_rate=preset["frame_rate"])
                 print(preset)
 
-    def set_input_values(self, start_frame=0, end_frame=0, step_frame=0, resolution_scale=0, file_format="", frame_rate=0):
+    def set_input_values(self, start_frame=0, end_frame=0, step_frame=0, resolution_scale=0, file_format="",
+                         frame_rate=0):
         """by giving the value in parameter, set the value on the user input"""
         self.start_frame.setValue(start_frame)
         self.end_frame.setValue(end_frame)
@@ -91,10 +93,10 @@ class RenderSettingsUI(QWidget):
         """
         valid = True
         return not (self.scale_resolution.value() \
-               == self.start_frame.value() \
-               == self.end_frame.value() \
-               == self.step_frame.value() \
-               == self.frame_rate.value() == 0)
+                    == self.start_frame.value() \
+                    == self.end_frame.value() \
+                    == self.step_frame.value() \
+                    == self.frame_rate.value() == 0)
 
     def save_render_settings(self):
         # override job render settings here
@@ -103,10 +105,11 @@ class RenderSettingsUI(QWidget):
             frame_sequence = [self.start_frame.value(), self.end_frame.value(), self.step_frame.value()]
             file_format = "png"
             frame_rate = self.frame_rate.value()
-            self.job.set_render_settings({"pixel_size": pixel_size,
-                                          "frame_sequence": frame_sequence,
-                                          "file_format": file_format,
-                                          "frame_rate": frame_rate})
+            config_datas = {"pixel_size": pixel_size,
+                            "frame_sequence": frame_sequence,
+                            "file_format": file_format,
+                            "frame_rate": frame_rate}
+            self.job.set_render_settings(fix_kwargs= config_datas)
             print("render settings have been overiden")
         else:
             print("All values = 0, no render settings have been overiden")
